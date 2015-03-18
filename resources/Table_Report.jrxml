@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Table_Report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0aa1baa-1f51-4645-80fd-cbe99c9d5653">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#48D1CC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFFFFD">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="chart" uuid="70656558-12d1-4895-af5f-2cc3c2e931d6">
+		<queryString language="MongoDbQuery">
+			<![CDATA[{
+"collectionName" : "user"
+}]]>
+		</queryString>
+		<field name="fullName" class="java.lang.String"/>
+		<field name="password" class="java.lang.String"/>
+		<field name="products" class="java.lang.Integer"/>
+		<field name="username" class="java.lang.String"/>
+		<variable name="userName_count" class="java.lang.Integer" calculation="Count">
+			<variableExpression><![CDATA[$F{username}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<queryString language="MongoDbQuery">
+		<![CDATA[{
+"collectionName" : "user"
+}]]>
+	</queryString>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="password" class="java.lang.String"/>
+	<field name="username" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="169" y="11" width="226" height="48" uuid="a51bb4a1-bf25-4f5a-a6a3-2e52515800bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[User list]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="708" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table" style="table" x="55" y="0" width="451" height="111" uuid="93cc5a6a-ea9e-4b98-97d8-9e51e7af3196"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="chart" uuid="175ee535-9284-4f15-a30d-feab31ae0a9a">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="136" uuid="9e37e6ca-623e-49de-96ec-c32ed9c5bcf6">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="38" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="b1ed5e18-2b9e-42da-acd4-18116b4abf27"/>
+								<text><![CDATA[fullName]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="431f7cbb-2f16-4bfd-b7fd-cc777af398f0"/>
+								<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="96" uuid="90fffd69-214f-45ed-a759-ec011a05c8f0">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="38" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="99abbd35-163b-4422-a39d-bf458dfb6a65"/>
+								<text><![CDATA[password]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="7e3a4767-d2d7-4eea-af39-6cce7f8d3171"/>
+								<textFieldExpression><![CDATA[$F{password}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="9848db4e-841d-4834-801d-b0913473e9bd">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="38" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="4e22a327-1ee1-47c3-9866-0d18fafc1027"/>
+								<text><![CDATA[username]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="73189fc6-3878-4f38-8ecc-47ec4d4afea3"/>
+								<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="e0a200e6-265a-4506-b1be-450bf9b469ff">
+						<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+						<jr:tableFooter style="table_TH" height="38" rowSpan="1"/>
+						<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="30" uuid="8dfeeb48-e7c0-44ba-90e1-0d1058c56593"/>
+								<text><![CDATA[product]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+						<jr:detailCell style="table_TD" height="30" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="20" uuid="ad9a1e55-69aa-410f-b619-15a97d211a9b"/>
+								<textFieldExpression><![CDATA[$F{products}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<barChart>
+				<chart>
+					<reportElement x="55" y="573" width="451" height="135" uuid="3b64824a-65e8-4366-aac4-666b335b2422"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="chart" uuid="4758034f-8ddf-4b2c-ae9c-8f014d3dddbd">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[""]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{username}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{products}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<itemLabel/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>
