@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Table_Report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0aa1baa-1f51-4645-80fd-cbe99c9d5653">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Table_Report" pageWidth="792" pageHeight="1224" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0aa1baa-1f51-4645-80fd-cbe99c9d5653">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -101,9 +101,9 @@
 		</band>
 	</title>
 	<summary>
-		<band height="633" splitType="Stretch">
+		<band height="656" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="18" y="0" width="521" height="187" uuid="a0a6c7d0-683e-41c4-993c-212498f8b166"/>
+				<reportElement key="table 2" style="table 2" x="18" y="0" width="521" height="138" uuid="a0a6c7d0-683e-41c4-993c-212498f8b166"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="chart" uuid="1cbc6656-4b04-4d49-a43c-641005ec0f4a">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
@@ -192,7 +192,7 @@
 			</componentElement>
 			<bar3DChart>
 				<chart>
-					<reportElement x="28" y="400" width="511" height="233" uuid="9e4d7ffa-47f6-4f18-aef5-18159f7cb314"/>
+					<reportElement x="28" y="303" width="511" height="172" uuid="9e4d7ffa-47f6-4f18-aef5-18159f7cb314"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -232,7 +232,7 @@
 			</bar3DChart>
 			<pie3DChart>
 				<chart>
-					<reportElement x="28" y="205" width="427" height="184" uuid="7fff5ff8-1d95-486b-8a0b-3f6c7a5e7790"/>
+					<reportElement x="28" y="151" width="427" height="141" uuid="7fff5ff8-1d95-486b-8a0b-3f6c7a5e7790"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -251,6 +251,45 @@
 					<itemLabel/>
 				</pie3DPlot>
 			</pie3DChart>
+			<lineChart>
+				<chart>
+					<reportElement x="28" y="485" width="511" height="159" uuid="a1bb9b8d-cfd2-4688-bb7d-a898d222ee2a"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="chart" uuid="3ef9c8fe-58b8-4f5c-8a9f-9fca1d9208ee">
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Fixing Bug"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{username}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{bugfixing}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Feature"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{username}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{feature}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Research"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{username}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{research}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat/>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat/>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
 		</band>
 	</summary>
 </jasperReport>
