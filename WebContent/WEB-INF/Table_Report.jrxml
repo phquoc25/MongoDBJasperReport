@@ -78,6 +78,7 @@
 			<variableExpression><![CDATA[$F{userName}]]></variableExpression>
 		</variable>
 	</subDataset>
+	<parameter name="dataSource1" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
 	<queryString language="MongoDbQuery">
 		<![CDATA[{
 "collectionName" : "user"
@@ -107,11 +108,13 @@
 			<componentElement>
 				<reportElement key="table 2" style="table 2" x="18" y="0" width="521" height="138" uuid="a0a6c7d0-683e-41c4-993c-212498f8b166"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="chart" uuid="0ddb62e1-4089-4209-b57f-ba7cfef25200"/>
+					<datasetRun subDataset="chart" uuid="29541da4-801e-464c-bb57-c61415685f5d">
+						<dataSourceExpression><![CDATA[$P{dataSource1}]]></dataSourceExpression>
+					</datasetRun>
 					<jr:column width="117" uuid="eeb7c00d-2bbb-4360-9f3d-3ef9188679ca">
 						<jr:columnHeader style="table 2_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="9321bd4d-2e79-4d38-8461-8c88aa1e5094"/>
+								<reportElement x="10" y="0" width="90" height="30" uuid="9321bd4d-2e79-4d38-8461-8c88aa1e5094"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle"/>
 								<text><![CDATA[username]]></text>
 							</staticText>

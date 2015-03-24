@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -98,7 +99,7 @@ public class ReportGeneratorController {
 	@RequestMapping(value="/userReport", method=RequestMethod.GET)
 	public void reportHtml(HttpServletRequest request, HttpServletResponse response){
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\Table_Report.jrxml";		
+		String template =  rootPath + "WEB-INF\\MyReport.jrxml";		
 		String output = rootPath + "WEB-INF\\tempReport.jsp";
 		String mongoURI = "mongodb://localhost:27017/qph";
 		MongoDbConnection connection = null;
@@ -141,18 +142,22 @@ public class ReportGeneratorController {
 	@RequestMapping(value="/showPDFReport", method=RequestMethod.GET)
 	public void showPdfReport(HttpServletRequest request, HttpServletResponse response){
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\Table_Report.jrxml";		
+		String template =  rootPath + "WEB-INF\\MyReport.jrxml";		
 		String mongoURI = "mongodb://localhost:27017/qph";
 		MongoDbConnection connection = null;
-
+		
+		JRDataSource dataSource = (JRDataSource)daoImpl.getDataSource();
+		
 		try {
 			connection = new MongoDbConnection(mongoURI, null, null);
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("SubDataSourceP", dataSource);
+			parameters.put("MyName", "Quoc PHAN");
 			JasperReport jasperReport = JasperCompileManager.compileReport(template);
 
 			JasperPrint jasperPrint = JasperFillManager.fillReport(
-					jasperReport, parameters, (JRDataSource)daoImpl.getDataSource());
+					jasperReport, parameters, new JREmptyDataSource());
 
 			JRPdfExporter pdfExporter = new JRPdfExporter();
 			SimpleExporterInput exporterInput = new SimpleExporterInput(jasperPrint);

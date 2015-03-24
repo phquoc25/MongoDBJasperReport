@@ -23,6 +23,6 @@
 	-->		
 	<bean id="multiReport"
 	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView"
-		p:url="WEB-INF/reportWithDataSource.jrxml"
+		p:url="WEB-INF/MyReport.jrxml"
 		p:reportDataKey="datasource" />	
 </beans>
