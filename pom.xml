@@ -4,7 +4,6 @@
 	<groupId>MongoDBWsAndReport</groupId>
 	<artifactId>MongoDBWsAndReport</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 
 	<properties>
 		<spring.version>3.2.3.RELEASE</spring.version>
@@ -15,6 +14,8 @@
 		<jasper.report.version>5.6.1</jasper.report.version>
 		<mongo.data.driver.version>2.10.1</mongo.data.driver.version>
 		<js.mongodb.version>0.5.0</js.mongodb.version>
+		<springdata.version>1.2.1.RELEASE</springdata.version>
+		<spring.support.version>2.0.6</spring.support.version>
 	</properties>
 
 	<dependencies>
@@ -48,11 +49,20 @@
 			<artifactId>jasperreports</artifactId>
 			<version>${jasper.report.version}</version>
 		</dependency>
+		<!-- <dependency> <groupId>org.mongodb</groupId> <artifactId>mongo-java-driver</artifactId> 
+			<version>${mongo.data.driver.version}</version> </dependency> -->
+
+		<!-- Spring Data for MongoDB -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${springdata.version}</version>
+		</dependency>
 
 		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>${mongo.data.driver.version}</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-support</artifactId>
+			<version>${spring.support.version}</version>
 		</dependency>
 
 		<!-- Log4j -->
@@ -61,6 +71,13 @@
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -85,4 +102,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	<packaging>war</packaging>
 </project>
