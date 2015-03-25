@@ -41,56 +41,37 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	<title>
+		<band height="50">
+			<textField>
+				<reportElement x="206" y="27" width="100" height="20" uuid="8f768146-ca87-488c-9dcf-e5834645e560"/>
+				<textFieldExpression><![CDATA[$P{MyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
 	<summary>
 		<band height="296" splitType="Stretch">
-			<componentElement>
-				<reportElement key="table" style="table" x="14" y="103" width="524" height="50" uuid="bf78dc98-d4e5-476a-bbd8-1d2410aa8867"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Table Dataset 1" uuid="bcbcf336-57c4-4756-a021-54472ef7873f">
-						<dataSourceExpression><![CDATA[$P{SubDataSourceP}]]></dataSourceExpression>
-					</datasetRun>
-					<jr:column width="90" uuid="3495d499-6401-4cae-bb94-c4398dadb742">
-						<jr:columnHeader style="table_CH" height="30"/>
-						<jr:detailCell style="table_TD" height="20"/>
-					</jr:column>
-					<jr:column width="90" uuid="b5d25fe7-f7a8-42fc-9270-92b1a1e666d6">
-						<jr:columnHeader style="table_CH" height="30"/>
-						<jr:detailCell style="table_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="d6323fcd-c885-46a0-8062-c58140f2b3a6"/>
-								<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="98aef328-e765-46f7-b15b-81c808c38435">
-						<jr:columnHeader style="table_CH" height="30"/>
-						<jr:detailCell style="table_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="2f9994c2-27c8-43cd-8d2c-31a5b31d91a2"/>
-								<textFieldExpression><![CDATA[$F{bugFixing}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="46fc9d12-91c9-4afe-ab79-98ae97613f0d">
-						<jr:columnHeader style="table_CH" height="30"/>
-						<jr:detailCell style="table_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="9362921a-b3c4-49d0-b8f8-f21ed42e7d3c"/>
-								<textFieldExpression><![CDATA[$F{feature}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="90" uuid="3bdfaff8-1b83-4a5c-848c-f419da942bd6">
-						<jr:columnHeader style="table_CH" height="30"/>
-						<jr:detailCell style="table_TD" height="20">
-							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="a3c8fe5a-ce83-4df5-a65e-456e71ecf876"/>
-								<textFieldExpression><![CDATA[$F{research}]]></textFieldExpression>
-							</textField>
-						</jr:detailCell>
-					</jr:column>
-				</jr:table>
-			</componentElement>
+			<pie3DChart>
+				<chart>
+					<reportElement x="109" y="27" width="321" height="138" uuid="7452c90a-fb54-4021-8d45-9dabe3842a76"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset>
+						<datasetRun subDataset="Table Dataset 1" uuid="209a1182-1f21-46f8-bada-e7fae933e09c">
+							<dataSourceExpression><![CDATA[$P{SubDataSourceP}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<keyExpression><![CDATA[$F{userName}]]></keyExpression>
+					<valueExpression><![CDATA[$F{bugFixing}]]></valueExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
 		</band>
 	</summary>
 </jasperReport>

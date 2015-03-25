@@ -2,7 +2,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	<!-- 
 		The JasperReportsMultiFormatView allows for the report format to be specified at runtime. 
@@ -21,8 +23,21 @@
 		url: the path where the Jasper JRXML file is located
 		reportDateKey: the name of the datasource. This is passed by the controller
 	-->		
+	<util:map id="exportParameterMap">
+             <entry key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN">
+                     <value>false</value>
+             </entry>
+             <entry key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND">
+                     <value>false</value>
+             </entry> 
+              <entry key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_URI">
+                 <value>image?image=</value>
+              </entry> 
+    </util:map>
+    
 	<bean id="multiReport"
-	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView"
-		p:url="WEB-INF/MyReport.jrxml"
-		p:reportDataKey="datasource" />	
+	   class="com.directv.view.SpReportsMultiFormatView"
+		p:url="WEB-INF/Table_Report.jrxml"
+		p:exporterParameters-ref="exportParameterMap"/>
+		<!-- p:reportDataKey="datasource" /> -->	
 </beans>
