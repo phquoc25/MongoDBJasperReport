@@ -37,6 +37,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ImageServlet</servlet-name>
-		<url-pattern>/image</url-pattern>
+		<url-pattern>/main/image</url-pattern>
 	</servlet-mapping>
 </web-app>
