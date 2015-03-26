@@ -19,12 +19,12 @@
 	</properties>
 
 	<dependencies>
-		<!-- Spring framework context -->
-		<dependency>
+		<!-- context -->
+	<!-- 	<dependency>
 			<groupId>com.jaspersoft</groupId>
 			<artifactId>js-mongodb-datasource</artifactId>
 			<version>${js.mongodb.version}</version>
-		</dependency>
+		</dependency> -->
 		<!-- Spring framework context -->
 		<dependency>
 			<groupId>org.springframework</groupId>

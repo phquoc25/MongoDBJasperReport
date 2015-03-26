@@ -37,7 +37,7 @@
     
 	<bean id="multiReport"
 	   class="com.directv.view.SpReportsMultiFormatView"
-		p:url="WEB-INF/Table_Report.jrxml"
-		p:exporterParameters-ref="exportParameterMap"/>
-		<!-- p:reportDataKey="datasource" /> -->	
+		p:url="WEB-INF/MyReport.jasper"
+		p:exporterParameters-ref="exportParameterMap"
+		p:reportDataKey="datasource" />	
 </beans>

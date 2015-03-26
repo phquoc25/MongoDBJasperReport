@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -33,16 +31,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.directv.dao.IDAO;
-import com.directv.services.IReportService;
-import com.jaspersoft.mongodb.connection.MongoDbConnection;
 
 @Controller
 @RequestMapping("/main")
 public class ReportGeneratorController {
 	
 	@Autowired
-	@Qualifier(value="userMongoDAO")
+	@Qualifier(value="dummyAggregateMongoDAO")
 	private IDAO daoImpl;
+	
+	private JRDataSource dataSource;
 	
 	/**
 	 * Handles and retrieves the download page
@@ -71,34 +69,12 @@ public class ReportGeneratorController {
     		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
 		 {
 		//logger.debug("Received request to download multi report");
-    	String mongoURI = "mongodb://localhost:27017/qph";
-		MongoDbConnection connection = null;
-		
-		try {
-			connection = new MongoDbConnection(mongoURI, null, null);
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		// Retrieve our data from a custom data provider
-		// Our data comes from a DAO layer
-		
-		// Assign the datasource to an instance of JRDataSource
-		// JRDataSource is the datasource that Jasper understands
-		// This is basically a wrapper to Java's collection classes
-    	JRDataSource datasource = (JRDataSource) daoImpl.getDataSource();
-		
-		// In order to use Spring's built-in Jasper support, 
-		// We are required to pass our datasource as a map parameter
-		
-		// Add our datasource parameter
-		//model.addAttribute("datasource", datasource);
-    	model.put("REPORT_CONNECTION", connection);
-		// Add the report format
-		model.addAttribute("format", type);
-		//Map<String,Object> parameterMap = new HashMap<String,Object>();
-		//parameterMap.put("format", type);
+    	dataSource = (JRDataSource) daoImpl.getDataSource();
+		model.put("datasource", new JREmptyDataSource());
+		model.put("format", type);
 		model.put("requestObject", request);
+		model.put("ChartTitle", "Utt usage per day");
+		model.put("SubDataSource", dataSource);
 		
 		// multiReport is the View of our application
 		// This is declared inside the /WEB-INF/jasper-views.xml
@@ -111,71 +87,17 @@ public class ReportGeneratorController {
 	@RequestMapping(value="/userReport", method=RequestMethod.GET)
 	public void reportHtml(HttpServletRequest request, HttpServletResponse response){
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\MyReport.jrxml";		
-		String output = rootPath + "WEB-INF\\tempReport.jsp";
-		String mongoURI = "mongodb://localhost:27017/qph";
-		MongoDbConnection connection = null;
+		String template =  rootPath + "WEB-INF\\MyReport.jasper";		
 		ModelAndView model = null;
-		JRDataSource dataSource = (JRDataSource)daoImpl.getDataSource();
+		dataSource = (JRDataSource)daoImpl.getDataSource();
 		try {
-			connection = new MongoDbConnection(mongoURI, null, null);
 			model = new ModelAndView();
-			
-			String html = "<select><option value=5>HTML Code</option></select>";
-			model.addObject("html", html);
-			
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("SubDataSourceP", dataSource);
-			parameters.put("MyName", "Quoc PHAN");
-			JasperReport jasperReport = JasperCompileManager.compileReport(template);
+			parameters.put("SubDataSource", dataSource);
+			parameters.put("ChartTitle", "Mongo Report");
+			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
 			
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-			
-			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
-			HtmlExporter exporterHTML = new HtmlExporter();
-			SimpleExporterInput exporterInput = new SimpleExporterInput(jasperPrint);
-			exporterHTML.setExporterInput(exporterInput);
-			SimpleHtmlExporterOutput exporterOutput;
-			
-			exporterOutput = new SimpleHtmlExporterOutput(response.getOutputStream());
-			exporterOutput.setImageHandler(new WebHtmlResourceHandler("image?image={0}"));
-			exporterHTML.setExporterOutput(exporterOutput);
-			
-			SimpleHtmlReportConfiguration reportExportConfiguration = new SimpleHtmlReportConfiguration();
-			reportExportConfiguration.setWhitePageBackground(false);
-			reportExportConfiguration.setRemoveEmptySpaceBetweenRows(true);
-			exporterHTML.setConfiguration(reportExportConfiguration);
-			exporterHTML.exportReport();
-					
-		} catch (JRException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@RequestMapping(value="/userReportByConnection", method=RequestMethod.GET)
-	public void reportHtmlConn(HttpServletRequest request, HttpServletResponse response){
-		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\Table_Report.jrxml";		
-		String output = rootPath + "WEB-INF\\tempReport.jsp";
-		String mongoURI = "mongodb://localhost:27017/qph";
-		MongoDbConnection connection = null;
-		ModelAndView model = null;
-		JRDataSource dataSource = (JRDataSource)daoImpl.getDataSource();
-		try {
-			connection = new MongoDbConnection(mongoURI, null, null);
-			model = new ModelAndView();
-			
-			String html = "<select><option value=5>HTML Code</option></select>";
-			model.addObject("html", html);
-			
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			//parameters.put("SubDataSourceP", dataSource);
-			//parameters.put("MyName", "Quoc PHAN");
-			JasperReport jasperReport = JasperCompileManager.compileReport(template);
-			
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(template, parameters, new JREmptyDataSource());
 			
 			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 			HtmlExporter exporterHTML = new HtmlExporter();
@@ -203,22 +125,17 @@ public class ReportGeneratorController {
 	@RequestMapping(value="/showPDFReport", method=RequestMethod.GET)
 	public void showPdfReport(HttpServletRequest request, HttpServletResponse response){
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\MyReport.jrxml";		
-		String mongoURI = "mongodb://localhost:27017/qph";
-		MongoDbConnection connection = null;
-		
-		JRDataSource dataSource = (JRDataSource)daoImpl.getDataSource();
+		String template =  rootPath + "WEB-INF\\MyReport.jasper";		
+		dataSource = (JRDataSource)daoImpl.getDataSource();
 		
 		try {
-			connection = new MongoDbConnection(mongoURI, null, null);
-
 			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("SubDataSourceP", dataSource);
-			parameters.put("MyName", "Quoc PHAN");
-			JasperReport jasperReport = JasperCompileManager.compileReport(template);
+			parameters.put("SubDataSource", dataSource);
+			parameters.put("ChartTitle", "Mongo Report");
+			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
 
 			JasperPrint jasperPrint = JasperFillManager.fillReport(
-					jasperReport, parameters, new JREmptyDataSource());
+					template, parameters, new JREmptyDataSource());
 
 			JRPdfExporter pdfExporter = new JRPdfExporter();
 			SimpleExporterInput exporterInput = new SimpleExporterInput(jasperPrint);

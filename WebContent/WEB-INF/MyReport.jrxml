@@ -25,27 +25,22 @@
 	</style>
 	<subDataset name="Table Dataset 1" uuid="f8239530-0a02-4fc6-b27a-79da0ec7f4bb">
 		<parameter name="name" class="java.lang.String" isForPrompting="false"/>
-		<field name="userName" class="java.lang.String"/>
-		<field name="fullName" class="java.lang.String"/>
-		<field name="bugFixing" class="java.lang.Integer"/>
-		<field name="feature" class="java.lang.Integer"/>
-		<field name="research" class="java.lang.Integer"/>
+		<field name="curDate" class="java.util.Date"/>
+		<field name="aggVal" class="java.lang.Long"/>
 	</subDataset>
-	<parameter name="SubDataSourceP" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
-	<parameter name="MyName" class="java.lang.String"/>
-	<field name="userName" class="java.lang.String"/>
-	<field name="fullName" class="java.lang.String"/>
-	<field name="bugFixing" class="java.lang.Integer"/>
-	<field name="feature" class="java.lang.Integer"/>
-	<field name="research" class="java.lang.Integer"/>
+	<parameter name="SubDataSource" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<parameter name="ChartTitle" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="50">
 			<textField>
-				<reportElement x="206" y="27" width="100" height="20" uuid="8f768146-ca87-488c-9dcf-e5834645e560"/>
-				<textFieldExpression><![CDATA[$P{MyName}]]></textFieldExpression>
+				<reportElement x="113" y="0" width="372" height="50" uuid="eb45a3b4-ae1d-4b31-b791-0b36851661d8"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{ChartTitle}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -53,7 +48,7 @@
 		<band height="296" splitType="Stretch">
 			<pie3DChart>
 				<chart>
-					<reportElement x="109" y="27" width="321" height="138" uuid="7452c90a-fb54-4021-8d45-9dabe3842a76"/>
+					<reportElement x="0" y="0" width="555" height="296" uuid="7452c90a-fb54-4021-8d45-9dabe3842a76"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -61,11 +56,14 @@
 				<pieDataset>
 					<dataset>
 						<datasetRun subDataset="Table Dataset 1" uuid="209a1182-1f21-46f8-bada-e7fae933e09c">
-							<dataSourceExpression><![CDATA[$P{SubDataSourceP}]]></dataSourceExpression>
+							<dataSourceExpression><![CDATA[$P{SubDataSource}]]></dataSourceExpression>
 						</datasetRun>
 					</dataset>
-					<keyExpression><![CDATA[$F{userName}]]></keyExpression>
-					<valueExpression><![CDATA[$F{bugFixing}]]></valueExpression>
+					<keyExpression><![CDATA[$F{curDate}.toLocaleString()]]></keyExpression>
+					<valueExpression><![CDATA[$F{aggVal}]]></valueExpression>
+					<sectionHyperlink>
+						<hyperlinkTooltipExpression><![CDATA[$F{aggVal}.toString().concat(" times")]]></hyperlinkTooltipExpression>
+					</sectionHyperlink>
 				</pieDataset>
 				<pie3DPlot>
 					<plot/>

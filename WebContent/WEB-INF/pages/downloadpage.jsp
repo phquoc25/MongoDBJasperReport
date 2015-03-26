@@ -5,22 +5,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Utt Report page</title>
 </head>
 <body>
 
-	<h1>Download Page</h1>
-	<p>Click the download links below:</p>
-	<c:url value="/main/download?type=xls" var="downloadXls" />
-	<a href="${downloadXls}">Download Excel</a>
-	<br />
+	<h1>Report Page</h1>
+	<p>Click the links below:</p>
 	<c:url value="/main/download?type=pdf" var="downloadPdf" />
-	<a href="${downloadPdf}">Download PDF</a>
+	<a href="${downloadPdf}">Show PDF format</a>
 	<br />
 	<c:url value="/main/download?type=html" var="downloadHtml" />
-	<a href="${downloadHtml}">Download HTML</a>
+	<a href="${downloadHtml}">show HTML format</a>
 	<br />
-	<c:url value="/main/download?type=csv" var="downloadCsv" />
-	<a href="${downloadCsv}">Download CSV</a>
 </body>
 </html>
