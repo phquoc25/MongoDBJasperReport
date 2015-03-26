@@ -6,15 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<properties>
-		<spring.version>3.2.3.RELEASE</spring.version>
-		<hibernate.version>3.6.10.Final</hibernate.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
 		<log4j.version>1.2.17</log4j.version>
 		<jackson.databind.version>2.2.3</jackson.databind.version>
 		<junit.version>4.11</junit.version>
 		<jasper.report.version>5.6.1</jasper.report.version>
-		<mongo.data.driver.version>2.10.1</mongo.data.driver.version>
-		<js.mongodb.version>0.5.0</js.mongodb.version>
-		<springdata.version>1.2.1.RELEASE</springdata.version>
+		<springdata.version>1.6.2.RELEASE</springdata.version>
 		<spring.support.version>2.0.6</spring.support.version>
 	</properties>
 
