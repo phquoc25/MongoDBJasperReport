@@ -1,6 +1,9 @@
 package com.directv.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,21 +67,45 @@ public class ReportGeneratorController {
      * 
      * @param type the format of the report, i.e pdf
      */
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    @RequestMapping(value = "/showpiechart", method = RequestMethod.GET)
     public ModelAndView doSalesMultiReport(@RequestParam("type") String type, 
     		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
 		 {
 		//logger.debug("Received request to download multi report");
     	dataSource = (JRDataSource) daoImpl.getDataSource();
+    	JRDataSource dataSource1 = (JRDataSource) daoImpl.getDataSource();
 		model.put("datasource", new JREmptyDataSource());
 		model.put("format", type);
 		model.put("requestObject", request);
-		model.put("ChartTitle", "Utt usage per day");
+		model.put("ChartTitle", "Utt per day");
 		model.put("SubDataSource", dataSource);
+		model.put("SubDataSource1", dataSource1);
 		
 		// multiReport is the View of our application
 		// This is declared inside the /WEB-INF/jasper-views.xml
 		modelAndView = new ModelAndView("multiReport", model);
+		
+		// Return the View and the Model combined
+		return modelAndView;
+	}
+    
+    @RequestMapping(value = "/showbarchart", method = RequestMethod.GET)
+    public ModelAndView showBarChartMultiReport(@RequestParam("type") String type, 
+    		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
+		 {
+		//logger.debug("Received request to download multi report");
+    	dataSource = (JRDataSource) daoImpl.getDataSource();
+    	JRDataSource dataSource1 = (JRDataSource) daoImpl.getDataSource();
+		model.put("datasource", dataSource);
+		model.put("format", type);
+		model.put("requestObject", request);
+		model.put("ChartTitle", "Utt per day");
+		model.put("SubDataSource", dataSource1);
+		//model.put("SubDataSource1", dataSource1);
+		
+		// multiReport is the View of our application
+		// This is declared inside the /WEB-INF/jasper-views.xml
+		modelAndView = new ModelAndView("barChartMultiReport", model);
 		
 		// Return the View and the Model combined
 		return modelAndView;
@@ -106,6 +133,10 @@ public class ReportGeneratorController {
 			SimpleHtmlExporterOutput exporterOutput;
 			
 			exporterOutput = new SimpleHtmlExporterOutput(response.getOutputStream());
+			//String outputFile = rootPath + "WEB-INF\\pages\\MyReportOutput.jsp";
+			//OutputStream outputStream = new FileOutputStream(outputFile);
+			
+			//exporterOutput = new SimpleHtmlExporterOutput(outputStream);
 			exporterOutput.setImageHandler(new WebHtmlResourceHandler("image?image={0}"));
 			exporterHTML.setExporterOutput(exporterOutput);
 			
@@ -114,10 +145,14 @@ public class ReportGeneratorController {
 			reportExportConfiguration.setRemoveEmptySpaceBetweenRows(true);
 			exporterHTML.setConfiguration(reportExportConfiguration);
 			exporterHTML.exportReport();
-					
+
 		} catch (JRException e) {
 			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -151,5 +186,10 @@ public class ReportGeneratorController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@RequestMapping(value="/showResult", method=RequestMethod.GET)
+	public String showResult(HttpServletRequest request, HttpServletResponse response){
+		return "MyReportOutput"; 
 	}
 }

@@ -11,11 +11,17 @@
 
 	<h1>Report Page</h1>
 	<p>Click the links below:</p>
-	<c:url value="/main/download?type=pdf" var="downloadPdf" />
-	<a href="${downloadPdf}">Show PDF format</a>
+	<c:url value="/main/showpiechart?type=pdf" var="showPiePdf" />
+	<a href="${showPiePdf}">Show Pie Chart as PDF format</a>
 	<br />
-	<c:url value="/main/download?type=html" var="downloadHtml" />
-	<a href="${downloadHtml}">show HTML format</a>
+	<c:url value="/main/showpiechart?type=html" var="showPieHtml" />
+	<a href="${showPieHtml}">show Pie Chart as HTML format</a>
+	<br />
+	<c:url value="/main/showbarchart?type=pdf" var="showBarPdf" />
+	<a href="${showBarPdf}">Show Bar Chart as PDF format</a>
+	<br />
+	<c:url value="/main/showbarchart?type=html" var="showBarHtml" />
+	<a href="${showBarHtml}">show Bar Chart as HTML format</a>
 	<br />
 </body>
 </html>

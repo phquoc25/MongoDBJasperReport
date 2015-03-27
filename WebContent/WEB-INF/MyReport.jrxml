@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MyReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0568f782-affe-4b2d-9c9f-4f8c66c75978">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="176"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -23,13 +23,34 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<subDataset name="Table Dataset 1" uuid="f8239530-0a02-4fc6-b27a-79da0ec7f4bb">
 		<parameter name="name" class="java.lang.String" isForPrompting="false"/>
 		<field name="curDate" class="java.util.Date"/>
 		<field name="aggVal" class="java.lang.Long"/>
 	</subDataset>
 	<parameter name="SubDataSource" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
-	<parameter name="ChartTitle" class="java.lang.String"/>
+	<parameter name="ChartTitle" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="SubDataSource1" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -45,10 +66,10 @@
 		</band>
 	</title>
 	<summary>
-		<band height="296" splitType="Stretch">
+		<band height="535" splitType="Stretch">
 			<pie3DChart>
 				<chart>
-					<reportElement x="0" y="0" width="555" height="296" uuid="7452c90a-fb54-4021-8d45-9dabe3842a76"/>
+					<reportElement x="0" y="0" width="555" height="272" uuid="7452c90a-fb54-4021-8d45-9dabe3842a76"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
@@ -59,7 +80,7 @@
 							<dataSourceExpression><![CDATA[$P{SubDataSource}]]></dataSourceExpression>
 						</datasetRun>
 					</dataset>
-					<keyExpression><![CDATA[$F{curDate}.toLocaleString()]]></keyExpression>
+					<keyExpression><![CDATA[$F{curDate}.getDate()]]></keyExpression>
 					<valueExpression><![CDATA[$F{aggVal}]]></valueExpression>
 					<sectionHyperlink>
 						<hyperlinkTooltipExpression><![CDATA[$F{aggVal}.toString().concat(" times")]]></hyperlinkTooltipExpression>
@@ -70,6 +91,46 @@
 					<itemLabel/>
 				</pie3DPlot>
 			</pie3DChart>
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="292" width="555" height="223" uuid="dc8a1f26-5fc5-45e1-87a5-f5b81d47fa20"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1" uuid="a97c0b21-bc1e-4ba1-9a20-7fcca8befacb">
+						<dataSourceExpression><![CDATA[$P{SubDataSource1}]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="235" uuid="b1a9bee1-7ee7-4ef5-86d4-b1bbd3b94d39">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="235" height="30" uuid="bdc08e52-145c-47b9-91be-c0c1e883e78e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="235" height="20" uuid="b8c691bc-b4d3-43f8-985b-1e0a4bcfec5c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{curDate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="229" uuid="fecb1671-6066-4b7d-aa76-357645eeff6c">
+						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="229" height="30" uuid="e325ec09-7dd9-47b0-9bf4-8a8334394e7a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[aggVal]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="229" height="20" uuid="280c87fd-8087-47a1-aa27-ca6beae5059f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{aggVal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</summary>
 </jasperReport>

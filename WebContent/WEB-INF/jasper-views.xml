@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-	<!-- 
-		The JasperReportsMultiFormatView allows for the report format to be specified at runtime. 
-		The actual rendering of the report is delegated to one of the other JasperReports view classes
-		
-		Mapping 			Key	View Class
-			csv				JasperReportsCsvView
-			html			JasperReportsHtmlView
-			pdf				JasperReportsPdfView
-			xls				JasperReportsXlsView
-
-		See http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/view.html#view-jasper-reports-configuration-multiformat-view
-	-->
-	<!-- 
-		id: the name to be used as a reference in the controller
-		url: the path where the Jasper JRXML file is located
-		reportDateKey: the name of the datasource. This is passed by the controller
-	-->		
+	<!-- The JasperReportsMultiFormatView allows for the report format to be 
+		specified at runtime. The actual rendering of the report is delegated to 
+		one of the other JasperReports view classes Mapping Key View Class csv JasperReportsCsvView 
+		html JasperReportsHtmlView pdf JasperReportsPdfView xls JasperReportsXlsView 
+		See http://static.springsource.org/spring/docs/3.0.x/spring-framework-reference/html/view.html#view-jasper-reports-configuration-multiformat-view -->
+	<!-- id: the name to be used as a reference in the controller url: the path 
+		where the Jasper JRXML file is located reportDateKey: the name of the datasource. 
+		This is passed by the controller -->
 	<util:map id="exportParameterMap">
-             <entry key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN">
-                     <value>false</value>
-             </entry>
-             <entry key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND">
-                     <value>false</value>
-             </entry> 
-              <entry key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_URI">
-                 <value>image?image=</value>
-              </entry> 
-    </util:map>
-    
-	<bean id="multiReport"
-	   class="com.directv.view.SpReportsMultiFormatView"
-		p:url="WEB-INF/MyReport.jasper"
-		p:exporterParameters-ref="exportParameterMap"
-		p:reportDataKey="datasource" />	
+		<entry
+			key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN">
+			<value>false</value>
+		</entry>
+		<entry
+			key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND">
+			<value>false</value>
+		</entry>
+		<entry
+			key="net.sf.jasperreports.engine.export.JRHtmlExporterParameter.IMAGES_URI">
+			<value>image?image=</value>
+		</entry>
+	</util:map>
+
+	<bean id="multiReport" class="com.directv.view.SpReportsMultiFormatView"
+		p:url="WEB-INF/MyReport.jasper" p:exporterParameters-ref="exportParameterMap"
+		p:reportDataKey="datasource" />
+
+	<bean id="barChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
+		p:url="WEB-INF/BarChart.jasper" p:exporterParameters-ref="exportParameterMap"
+		p:reportDataKey="datasource" />
 </beans>
