@@ -1,10 +1,14 @@
 package com.directv.controller;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -112,13 +116,14 @@ public class ReportGeneratorController {
 	}
     
 	@RequestMapping(value="/userReport", method=RequestMethod.GET)
-	public void reportHtml(HttpServletRequest request, HttpServletResponse response){
+	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response){
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
 		String template =  rootPath + "WEB-INF\\MyReport.jasper";		
 		ModelAndView model = null;
 		dataSource = (JRDataSource)daoImpl.getDataSource();
+		BufferedReader reader = null;
 		try {
-			model = new ModelAndView();
+			model = new ModelAndView("downloadpage");
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("SubDataSource", dataSource);
 			parameters.put("ChartTitle", "Mongo Report");
@@ -132,11 +137,9 @@ public class ReportGeneratorController {
 			exporterHTML.setExporterInput(exporterInput);
 			SimpleHtmlExporterOutput exporterOutput;
 			
-			exporterOutput = new SimpleHtmlExporterOutput(response.getOutputStream());
-			//String outputFile = rootPath + "WEB-INF\\pages\\MyReportOutput.jsp";
-			//OutputStream outputStream = new FileOutputStream(outputFile);
-			
-			//exporterOutput = new SimpleHtmlExporterOutput(outputStream);
+			//exporterOutput = new SimpleHtmlExporterOutput(response.getOutputStream());
+			String outputFile = rootPath + "WEB-INF\\pages\\MyReportOutput.jsp";
+			exporterOutput = new SimpleHtmlExporterOutput(outputFile);
 			exporterOutput.setImageHandler(new WebHtmlResourceHandler("image?image={0}"));
 			exporterHTML.setExporterOutput(exporterOutput);
 			
@@ -145,7 +148,25 @@ public class ReportGeneratorController {
 			reportExportConfiguration.setRemoveEmptySpaceBetweenRows(true);
 			exporterHTML.setConfiguration(reportExportConfiguration);
 			exporterHTML.exportReport();
-
+			
+			//Read the output file in order to obtain the report contain
+			reader = new BufferedReader(new FileReader(outputFile));
+			StringBuffer reportBody = new StringBuffer();
+			String currentLine;
+			List<String> lineList = new ArrayList<String>();
+			
+			int i = 0;
+			while((currentLine = reader.readLine()) != null){
+				if(i >= 10){
+					lineList.add(currentLine);
+				}
+				i++;
+			}
+			
+			for (int j = 0; j < lineList.size() - 2; j++) {
+				reportBody.append(lineList.get(j));
+			}
+			model.addObject("reportBody", reportBody.toString());
 		} catch (JRException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
@@ -154,7 +175,17 @@ public class ReportGeneratorController {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			if(reader != null){
+				try {
+					reader.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
+		return model;
 	}
 	
 	@RequestMapping(value="/showPDFReport", method=RequestMethod.GET)

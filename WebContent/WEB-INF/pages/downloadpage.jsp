@@ -23,5 +23,6 @@
 	<c:url value="/main/showbarchart?type=html" var="showBarHtml" />
 	<a href="${showBarHtml}">show Bar Chart as HTML format</a>
 	<br />
+	${reportBody}
 </body>
 </html>
