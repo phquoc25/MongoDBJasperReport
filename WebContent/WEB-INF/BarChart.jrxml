@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BarChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e2cf083-f5bb-485d-b9d3-ecdce8bb9733">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="44"/>
+	<property name="ireport.y" value="27"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -44,11 +44,14 @@
 		</box>
 	</style>
 	<subDataset name="SubDataSet" uuid="aa39baae-a331-48cb-993e-3c073609af71">
+		<parameter name="dateFormater" class="java.text.SimpleDateFormat" isForPrompting="false"/>
 		<field name="curDate" class="java.util.Date"/>
 		<field name="aggVal" class="java.lang.Long"/>
 	</subDataset>
 	<parameter name="ChartTitle" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="SubDataSource" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
+	<parameter name="dateFormater" class="java.text.SimpleDateFormat" isForPrompting="false"/>
+	<parameter name="SubDataSource1" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
 	<field name="curDate" class="java.util.Date"/>
 	<field name="aggVal" class="java.lang.Long"/>
 	<background>
@@ -58,8 +61,8 @@
 		<band height="64" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="8" width="555" height="48" uuid="a9cd6324-b974-46e9-bc8f-72067b5e7cd1"/>
-				<textElement>
-					<font size="36" isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ChartTitle}]]></textFieldExpression>
 			</textField>
@@ -69,15 +72,23 @@
 		<band height="373" splitType="Stretch">
 			<bar3DChart>
 				<chart>
-					<reportElement x="11" y="19" width="528" height="164" uuid="b24c8a7b-3e3e-4e40-a718-12b15ff1264c"/>
+					<reportElement x="0" y="19" width="555" height="164" uuid="b24c8a7b-3e3e-4e40-a718-12b15ff1264c"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
 				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="SubDataSet" uuid="72b5f2cf-e86a-4513-a750-4431e737b4b6">
+							<datasetParameter name="dateFormater">
+								<datasetParameterExpression><![CDATA[$P{dateFormater}]]></datasetParameterExpression>
+							</datasetParameter>
+							<dataSourceExpression><![CDATA[$P{SubDataSource}]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[$F{curDate}.getDate()]]></seriesExpression>
-						<categoryExpression><![CDATA[$F{curDate}.getDate()]]></categoryExpression>
+						<seriesExpression><![CDATA[""]]></seriesExpression>
+						<categoryExpression><![CDATA[$P{dateFormater}.format($F{curDate})]]></categoryExpression>
 						<valueExpression><![CDATA[$F{aggVal}]]></valueExpression>
 						<itemHyperlink>
 							<hyperlinkTooltipExpression><![CDATA[$F{aggVal} + " times"]]></hyperlinkTooltipExpression>
@@ -96,35 +107,50 @@
 				</bar3DPlot>
 			</bar3DChart>
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="0" y="249" width="555" height="124" uuid="af6306d6-c394-46e4-a4b6-1b4255569160"/>
+				<reportElement key="table 1" style="table 1" x="0" y="219" width="555" height="154" uuid="af6306d6-c394-46e4-a4b6-1b4255569160"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="SubDataSet" uuid="4c7fec03-1b4c-47ef-872d-bd9d4808b8f5">
-						<dataSourceExpression><![CDATA[$P{SubDataSource}]]></dataSourceExpression>
+					<datasetRun subDataset="SubDataSet" uuid="9f5d331b-f7f4-42fd-9e01-8f7b279f1ee2">
+						<datasetParameter name="dateFormater">
+							<datasetParameterExpression><![CDATA[$P{dateFormater}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[$P{SubDataSource1}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="236" uuid="0c963314-6173-4d4e-907f-70be939c48c4">
+					<jr:column width="282" uuid="0c963314-6173-4d4e-907f-70be939c48c4">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="abc8376b-af73-454b-a3a5-b9727eb83256"/>
-								<text><![CDATA[curDate]]></text>
+								<reportElement x="0" y="0" width="282" height="30" uuid="abc8376b-af73-454b-a3a5-b9727eb83256"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="8862cd04-494e-4cd8-b5a5-b395725a796d"/>
-								<textFieldExpression><![CDATA[$F{curDate}]]></textFieldExpression>
+								<reportElement x="0" y="0" width="282" height="20" uuid="8862cd04-494e-4cd8-b5a5-b395725a796d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$P{dateFormater}.format($F{curDate})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="218" uuid="c95974a7-381f-4c33-9f53-4bcc21a25747">
+					<jr:column width="270" uuid="c95974a7-381f-4c33-9f53-4bcc21a25747">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="90" height="30" uuid="d4decf07-fc08-436f-a66f-eff7487d1bbb"/>
+								<reportElement x="0" y="0" width="270" height="30" uuid="d4decf07-fc08-436f-a66f-eff7487d1bbb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
 								<text><![CDATA[aggVal]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="90" height="20" uuid="00befa24-05a4-46e0-ad11-0f34290a1bef"/>
+								<reportElement x="0" y="0" width="270" height="20" uuid="00befa24-05a4-46e0-ad11-0f34290a1bef"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12"/>
+								</textElement>
 								<textFieldExpression><![CDATA[$F{aggVal}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>

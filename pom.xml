@@ -17,11 +17,8 @@
 
 	<dependencies>
 		<!-- context -->
-	<!-- 	<dependency>
-			<groupId>com.jaspersoft</groupId>
-			<artifactId>js-mongodb-datasource</artifactId>
-			<version>${js.mongodb.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.jaspersoft</groupId> <artifactId>js-mongodb-datasource</artifactId> 
+			<version>${js.mongodb.version}</version> </dependency> -->
 		<!-- Spring framework context -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -71,9 +68,10 @@
 
 		<dependency>
 			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
+
 
 	</dependencies>
 

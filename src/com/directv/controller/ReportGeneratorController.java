@@ -2,13 +2,10 @@ package com.directv.controller;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +16,7 @@ import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
@@ -28,6 +26,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -47,8 +46,11 @@ public class ReportGeneratorController {
 	@Qualifier(value="dummyAggregateMongoDAO")
 	private IDAO daoImpl;
 	
-	private JRDataSource dataSource;
+	private Logger logger = Logger.getLogger("ReportGeneratorController");
 	
+	public ReportGeneratorController() {
+		logger.debug("Initialization of ReportGeneratorController");
+	}
 	/**
 	 * Handles and retrieves the download page
 	 * 
@@ -56,7 +58,7 @@ public class ReportGeneratorController {
 	 */
     @RequestMapping(method = RequestMethod.GET)
     public String getDownloadPage() {
-    	//logger.debug("Received request to show download page");
+    	logger.debug("Received request to show download page");
     
     	// Do your work here. Whatever you like
     	// i.e call a custom service to do your business
@@ -71,19 +73,21 @@ public class ReportGeneratorController {
      * 
      * @param type the format of the report, i.e pdf
      */
-    @RequestMapping(value = "/showpiechart", method = RequestMethod.GET)
+    @RequestMapping(value = "/downloadpiechart", method = RequestMethod.GET)
     public ModelAndView doSalesMultiReport(@RequestParam("type") String type, 
     		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
 		 {
-		//logger.debug("Received request to download multi report");
-    	dataSource = (JRDataSource) daoImpl.getDataSource();
-    	JRDataSource dataSource1 = (JRDataSource) daoImpl.getDataSource();
+		logger.debug("Received request to download report type " + type);
+    	//daoImpl.initCollection();
+		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
+    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
 		model.put("datasource", new JREmptyDataSource());
 		model.put("format", type);
 		model.put("requestObject", request);
 		model.put("ChartTitle", "Utt per day");
 		model.put("SubDataSource", dataSource);
 		model.put("SubDataSource1", dataSource1);
+		model.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
 		
 		// multiReport is the View of our application
 		// This is declared inside the /WEB-INF/jasper-views.xml
@@ -97,9 +101,10 @@ public class ReportGeneratorController {
     public ModelAndView showBarChartMultiReport(@RequestParam("type") String type, 
     		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
 		 {
-		//logger.debug("Received request to download multi report");
-    	dataSource = (JRDataSource) daoImpl.getDataSource();
-    	JRDataSource dataSource1 = (JRDataSource) daoImpl.getDataSource();
+		logger.debug("Received request to download multi report");
+		//daoImpl.initCollection();
+		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
+    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
 		model.put("datasource", dataSource);
 		model.put("format", type);
 		model.put("requestObject", request);
@@ -115,18 +120,40 @@ public class ReportGeneratorController {
 		return modelAndView;
 	}
     
-	@RequestMapping(value="/userReport", method=RequestMethod.GET)
+	@RequestMapping(value="/showchart/{chartType}", method=RequestMethod.GET)
 	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response){
+		
+		logger.debug("Received request to show report");
+		daoImpl.initCollection();
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\MyReport.jasper";		
-		ModelAndView model = null;
-		dataSource = (JRDataSource)daoImpl.getDataSource();
+		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		
+		
+		ModelAndView modelAndView = null;
+		String reportBody = getReportBody(request, rootPath, template);
+		modelAndView = generateReportPage(reportBody);
+		return modelAndView;
+	}
+	public ModelAndView generateReportPage(String reportBody) {
+		ModelAndView modelAndView;
+		ModelMap model = new ModelMap();
+		model.put("reportBody", reportBody);
+		model.put("pdfLink", "/MongoDBWsAndReport/main/downloadpiechart?type=pdf");
+		modelAndView = new ModelAndView("downloadpage");
+		modelAndView.addAllObjects(model);
+		return modelAndView;
+	}
+	public String getReportBody(HttpServletRequest request, String rootPath,
+			String template) {
+		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
+		JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
 		BufferedReader reader = null;
+		StringBuffer reportBody = null;
 		try {
-			model = new ModelAndView("downloadpage");
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("SubDataSource", dataSource);
-			parameters.put("ChartTitle", "Mongo Report");
+			parameters.put("SubDataSource1", dataSource1);
+			parameters.put("ChartTitle", "Utterance Report");
+			parameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
 			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
 			
 			JasperPrint jasperPrint = JasperFillManager.fillReport(template, parameters, new JREmptyDataSource());
@@ -138,7 +165,7 @@ public class ReportGeneratorController {
 			SimpleHtmlExporterOutput exporterOutput;
 			
 			//exporterOutput = new SimpleHtmlExporterOutput(response.getOutputStream());
-			String outputFile = rootPath + "WEB-INF\\pages\\MyReportOutput.jsp";
+			String outputFile = rootPath + "WEB-INF\\pages\\MyReportOutput" + request.getSession().getId() + ".jsp";
 			exporterOutput = new SimpleHtmlExporterOutput(outputFile);
 			exporterOutput.setImageHandler(new WebHtmlResourceHandler("image?image={0}"));
 			exporterHTML.setExporterOutput(exporterOutput);
@@ -151,22 +178,26 @@ public class ReportGeneratorController {
 			
 			//Read the output file in order to obtain the report contain
 			reader = new BufferedReader(new FileReader(outputFile));
-			StringBuffer reportBody = new StringBuffer();
+			reportBody = new StringBuffer();
 			String currentLine;
-			List<String> lineList = new ArrayList<String>();
 			
-			int i = 0;
+			boolean isStarted = false;
+			boolean isTerminated = false;
 			while((currentLine = reader.readLine()) != null){
-				if(i >= 10){
-					lineList.add(currentLine);
+				if(currentLine.startsWith("<body")){
+					isStarted = true;
+					continue;
 				}
-				i++;
+				
+				if(currentLine.startsWith("</body")){
+					isTerminated = true;
+				}
+				
+				if(isStarted && !isTerminated){
+					reportBody.append(currentLine);
+				}
 			}
 			
-			for (int j = 0; j < lineList.size() - 2; j++) {
-				reportBody.append(lineList.get(j));
-			}
-			model.addObject("reportBody", reportBody.toString());
 		} catch (JRException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
@@ -185,14 +216,14 @@ public class ReportGeneratorController {
 				}
 			}
 		}
-		return model;
+		return reportBody.toString();
 	}
 	
 	@RequestMapping(value="/showPDFReport", method=RequestMethod.GET)
 	public void showPdfReport(HttpServletRequest request, HttpServletResponse response){
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\MyReport.jasper";		
-		dataSource = (JRDataSource)daoImpl.getDataSource();
+		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		
+		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
 		
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();

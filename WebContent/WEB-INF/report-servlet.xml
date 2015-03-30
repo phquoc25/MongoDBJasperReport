@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 	
 	<mvc:annotation-driven/>
-	<context:component-scan base-package="com.directv.controller"></context:component-scan>
+	<context:component-scan base-package="com.directv"></context:component-scan>
 <!-- 
 	Here we declared two resolvers. The lower numbered order takes higher precedence.
 	This means the XmlViewResolver will be used first by Spring to check if there's 
