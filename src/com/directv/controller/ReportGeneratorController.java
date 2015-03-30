@@ -39,7 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.directv.dao.IDAO;
 
 @Controller
-@RequestMapping("/main")
+@RequestMapping("/report")
 public class ReportGeneratorController {
 	
 	@Autowired
@@ -65,7 +65,7 @@ public class ReportGeneratorController {
     	// Prepare a model to be used by the JSP page
     	
     	// This will resolve to /WEB-INF/jsp/downloadpage.jsp
-    	return "downloadpage";
+    	return "report";
 	}
     
 	   /**
@@ -97,30 +97,9 @@ public class ReportGeneratorController {
 		return modelAndView;
 	}
     
-    @RequestMapping(value = "/showbarchart", method = RequestMethod.GET)
-    public ModelAndView showBarChartMultiReport(@RequestParam("type") String type, 
-    		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
-		 {
-		logger.debug("Received request to download multi report");
-		//daoImpl.initCollection();
-		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
-		model.put("datasource", dataSource);
-		model.put("format", type);
-		model.put("requestObject", request);
-		model.put("ChartTitle", "Utt per day");
-		model.put("SubDataSource", dataSource1);
-		//model.put("SubDataSource1", dataSource1);
-		
-		// multiReport is the View of our application
-		// This is declared inside the /WEB-INF/jasper-views.xml
-		modelAndView = new ModelAndView("barChartMultiReport", model);
-		
-		// Return the View and the Model combined
-		return modelAndView;
-	}
+ 
     
-	@RequestMapping(value="/showchart/{chartType}", method=RequestMethod.GET)
+	@RequestMapping(value="/showchart", method=RequestMethod.GET)
 	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response){
 		
 		logger.debug("Received request to show report");
@@ -131,17 +110,35 @@ public class ReportGeneratorController {
 		ModelAndView modelAndView = null;
 		String reportBody = getReportBody(request, rootPath, template);
 		modelAndView = generateReportPage(reportBody);
+		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadpiechart?type=pdf");
 		return modelAndView;
 	}
+	
+	@RequestMapping(value="/showbarchart", method=RequestMethod.GET)
+	public ModelAndView showBarChart(HttpServletRequest request, HttpServletResponse response){
+		
+		logger.debug("Received request to show report");
+		daoImpl.initCollection();
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String template =  rootPath + "WEB-INF\\BarChart.jasper";		
+		
+		ModelAndView modelAndView = null;
+		String reportBody = getReportBody(request, rootPath, template);
+		modelAndView = generateReportPage(reportBody);
+		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadbarchart?type=pdf");
+		return modelAndView;
+	}
+	
 	public ModelAndView generateReportPage(String reportBody) {
 		ModelAndView modelAndView;
 		ModelMap model = new ModelMap();
 		model.put("reportBody", reportBody);
-		model.put("pdfLink", "/MongoDBWsAndReport/main/downloadpiechart?type=pdf");
+		//model.put("pdfLink", "/MongoDBWsAndReport/main/downloadpiechart?type=pdf");
 		modelAndView = new ModelAndView("downloadpage");
 		modelAndView.addAllObjects(model);
 		return modelAndView;
 	}
+	
 	public String getReportBody(HttpServletRequest request, String rootPath,
 			String template) {
 		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
@@ -219,35 +216,30 @@ public class ReportGeneratorController {
 		return reportBody.toString();
 	}
 	
-	@RequestMapping(value="/showPDFReport", method=RequestMethod.GET)
-	public void showPdfReport(HttpServletRequest request, HttpServletResponse response){
-		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		
+	@RequestMapping(value = "/downloadbarchart", method = RequestMethod.GET)
+	public ModelAndView showBarChartMultiReport(
+			@RequestParam("type") String type, ModelAndView modelAndView,
+			ModelMap model, HttpServletRequest request,
+			HttpServletResponse response) {
+		logger.debug("Received request to download multi report");
+		// daoImpl.initCollection();
 		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-		
-		try {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("SubDataSource", dataSource);
-			parameters.put("ChartTitle", "Mongo Report");
-			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
+    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
+		model.put("datasource", new JREmptyDataSource());
+		model.put("format", type);
+		model.put("requestObject", request);
+		model.put("ChartTitle", "Utt per day");
+		model.put("SubDataSource", dataSource);
+		model.put("SubDataSource1", dataSource1);
+		model.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
+		// model.put("SubDataSource1", dataSource1);
 
-			JasperPrint jasperPrint = JasperFillManager.fillReport(
-					template, parameters, new JREmptyDataSource());
+		// multiReport is the View of our application
+		// This is declared inside the /WEB-INF/jasper-views.xml
+		modelAndView = new ModelAndView("barChartMultiReport", model);
 
-			JRPdfExporter pdfExporter = new JRPdfExporter();
-			SimpleExporterInput exporterInput = new SimpleExporterInput(jasperPrint);
-			pdfExporter.setExporterInput(exporterInput);
-			
-			SimpleOutputStreamExporterOutput exporterOutput;
-			exporterOutput = new SimpleOutputStreamExporterOutput(response.getOutputStream());
-			pdfExporter.setExporterOutput(exporterOutput);
-			pdfExporter.exportReport();
-			
-		} catch (JRException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// Return the View and the Model combined
+		return modelAndView;
 	}
 	
 	@RequestMapping(value="/showResult", method=RequestMethod.GET)
