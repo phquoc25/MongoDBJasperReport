@@ -37,14 +37,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.directv.dao.IDAO;
+import com.directv.services.AbstractReportService;
 
 @Controller
 @RequestMapping("/report")
 public class ReportGeneratorController {
 	
 	@Autowired
-	@Qualifier(value="dummyAggregateMongoDAO")
-	private IDAO daoImpl;
+	private AbstractReportService reportServiceImpl;
 	
 	private Logger logger = Logger.getLogger("ReportGeneratorController");
 	
@@ -79,8 +79,8 @@ public class ReportGeneratorController {
 		 {
 		logger.debug("Received request to download report type " + type);
     	//daoImpl.initCollection();
-		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
+		JRDataSource dataSource = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
 		model.put("datasource", new JREmptyDataSource());
 		model.put("format", type);
 		model.put("requestObject", request);
@@ -103,7 +103,7 @@ public class ReportGeneratorController {
 	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response){
 		
 		logger.debug("Received request to show report");
-		daoImpl.initCollection();
+		reportServiceImpl.initCollection();
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
 		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		
 		
@@ -118,7 +118,7 @@ public class ReportGeneratorController {
 	public ModelAndView showBarChart(HttpServletRequest request, HttpServletResponse response){
 		
 		logger.debug("Received request to show report");
-		daoImpl.initCollection();
+		reportServiceImpl.initCollection();
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
 		String template =  rootPath + "WEB-INF\\BarChart.jasper";		
 		
@@ -141,8 +141,8 @@ public class ReportGeneratorController {
 	
 	public String getReportBody(HttpServletRequest request, String rootPath,
 			String template) {
-		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-		JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
+		JRDataSource dataSource = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+		JRDataSource dataSource1 = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
 		BufferedReader reader = null;
 		StringBuffer reportBody = null;
 		try {
@@ -223,8 +223,8 @@ public class ReportGeneratorController {
 			HttpServletResponse response) {
 		logger.debug("Received request to download multi report");
 		// daoImpl.initCollection();
-		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
+		JRDataSource dataSource = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
 		model.put("datasource", new JREmptyDataSource());
 		model.put("format", type);
 		model.put("requestObject", request);
