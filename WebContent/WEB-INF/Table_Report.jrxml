@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Table_Report" pageWidth="792" pageHeight="1224" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0aa1baa-1f51-4645-80fd-cbe99c9d5653">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="473"/>
+	<property name="ireport.y" value="557"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -258,25 +258,25 @@
 					</valueAxisFormat>
 				</barPlot>
 			</barChart>
-			<xyLineChart>
+			<lineChart>
 				<chart>
-					<reportElement x="100" y="661" width="200" height="100" uuid="d81d805a-9e9e-461d-b4b2-bfad21099320"/>
+					<reportElement x="0" y="619" width="752" height="291" uuid="c9dfe1e2-de45-42f2-b8d6-913ea3a33377"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<xyDataset>
+				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="chart" uuid="dcc1936c-c96d-48a4-a725-0b59c7e5c75c">
+						<datasetRun subDataset="chart" uuid="431e4e70-39b9-4d98-bcef-6678d7606f64">
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
 					</dataset>
-					<xySeries>
-						<seriesExpression><![CDATA[""]]></seriesExpression>
-						<xValueExpression><![CDATA[$F{research}]]></xValueExpression>
-						<yValueExpression><![CDATA[$F{feature}]]></yValueExpression>
-					</xySeries>
-				</xyDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Dummy Series"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{userName}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{bugFixing}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
 				<linePlot>
 					<plot/>
 					<categoryAxisFormat>
@@ -286,7 +286,7 @@
 						<axisFormat/>
 					</valueAxisFormat>
 				</linePlot>
-			</xyLineChart>
+			</lineChart>
 		</band>
 	</summary>
 </jasperReport>

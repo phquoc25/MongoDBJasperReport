@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BarChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e2cf083-f5bb-485d-b9d3-ecdce8bb9733">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportWithDataSource" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9e9e93f2-6a3c-4ef1-9684-9f438a6e5523">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="101"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -43,25 +43,44 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="SubDataSet" uuid="aa39baae-a331-48cb-993e-3c073609af71">
+	<subDataset name="Table Dataset 1" uuid="c7c873ee-b209-42a3-8008-3dbbe4b6528b">
 		<parameter name="dateFormater" class="java.text.SimpleDateFormat" isForPrompting="false"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
 		<field name="curDate" class="java.util.Date"/>
 		<field name="aggVal" class="java.lang.Long"/>
 	</subDataset>
-	<parameter name="ChartTitle" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="SubDataSource" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
-	<parameter name="dateFormater" class="java.text.SimpleDateFormat" isForPrompting="false"/>
+	<parameter name="ChartTitle" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="SubDataSource1" class="net.sf.jasperreports.engine.JRDataSource" isForPrompting="false"/>
-	<field name="curDate" class="java.util.Date"/>
-	<field name="aggVal" class="java.lang.Long"/>
+	<parameter name="dateFormater" class="java.text.SimpleDateFormat" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="bugFixing" class="java.lang.Integer">
+		<fieldDescription><![CDATA[bugFixing]]></fieldDescription>
+	</field>
+	<field name="feature" class="java.lang.Integer">
+		<fieldDescription><![CDATA[feature]]></fieldDescription>
+	</field>
+	<field name="fullName" class="java.lang.String">
+		<fieldDescription><![CDATA[fullName]]></fieldDescription>
+	</field>
+	<field name="research" class="java.lang.Integer">
+		<fieldDescription><![CDATA[research]]></fieldDescription>
+	</field>
+	<field name="userName" class="java.lang.String">
+		<fieldDescription><![CDATA[userName]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="64" splitType="Stretch">
+		<band height="79" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="8" width="555" height="48" uuid="a9cd6324-b974-46e9-bc8f-72067b5e7cd1"/>
-				<textElement verticalAlignment="Middle">
+				<reportElement x="0" y="22" width="555" height="50" uuid="0ae7a0de-8478-43b1-a1ef-19b794d94e57"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="24" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ChartTitle}]]></textFieldExpression>
@@ -69,51 +88,51 @@
 		</band>
 	</title>
 	<summary>
-		<band height="373" splitType="Stretch">
+		<band height="431" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="0" y="219" width="555" height="154" uuid="af6306d6-c394-46e4-a4b6-1b4255569160"/>
+				<reportElement key="table 1" style="table 1" x="0" y="230" width="555" height="186" uuid="3ba31b28-481c-422a-b022-0456b044aa0a"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="SubDataSet" uuid="9f5d331b-f7f4-42fd-9e01-8f7b279f1ee2">
+					<datasetRun subDataset="Table Dataset 1" uuid="4b4bb8b4-e344-4bd2-8d6c-63bc1986681e">
 						<datasetParameter name="dateFormater">
 							<datasetParameterExpression><![CDATA[$P{dateFormater}]]></datasetParameterExpression>
 						</datasetParameter>
 						<dataSourceExpression><![CDATA[$P{SubDataSource1}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="282" uuid="0c963314-6173-4d4e-907f-70be939c48c4">
+					<jr:column width="292" uuid="d4030873-52fb-427c-8b93-376805486211">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="282" height="30" uuid="abc8376b-af73-454b-a3a5-b9727eb83256"/>
+								<reportElement x="0" y="0" width="292" height="30" uuid="8cde89e5-1022-4017-b023-bbf4c2216ad1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
+									<font size="16" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Date]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="282" height="20" uuid="8862cd04-494e-4cd8-b5a5-b395725a796d"/>
+								<reportElement x="0" y="0" width="292" height="20" uuid="4fd6d18f-8f5e-408f-9fa5-11dfbd10d716"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12"/>
+									<font size="14"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$P{dateFormater}.format($F{curDate})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="270" uuid="c95974a7-381f-4c33-9f53-4bcc21a25747">
+					<jr:column width="262" uuid="df46db1f-0448-4462-85a7-d756f8c477d7">
 						<jr:columnHeader style="table 1_CH" height="30" rowSpan="1">
 							<staticText>
-								<reportElement x="0" y="0" width="270" height="30" uuid="d4decf07-fc08-436f-a66f-eff7487d1bbb"/>
+								<reportElement x="0" y="0" width="262" height="30" uuid="8bd59501-ee6d-4169-8e11-89260ab358d2"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="14" isBold="true"/>
+									<font size="16" isBold="true"/>
 								</textElement>
 								<text><![CDATA[aggVal]]></text>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="270" height="20" uuid="00befa24-05a4-46e0-ad11-0f34290a1bef"/>
+								<reportElement x="0" y="0" width="262" height="20" uuid="4db77a37-fa61-4063-b7c9-c5158f88135a"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="12"/>
+									<font size="14"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{aggVal}]]></textFieldExpression>
 							</textField>
@@ -121,16 +140,16 @@
 					</jr:column>
 				</jr:table>
 			</componentElement>
-			<barChart>
+			<lineChart>
 				<chart>
-					<reportElement x="0" y="10" width="555" height="194" uuid="749cc7a1-b411-41fb-872c-1b747a36d59d"/>
+					<reportElement x="0" y="14" width="555" height="201" uuid="9eec532e-18e5-4228-911e-28c5c47ab3c2"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend position="Right"/>
 				</chart>
 				<categoryDataset>
 					<dataset>
-						<datasetRun subDataset="SubDataSet" uuid="20686d03-87b5-43e5-91bc-73e3ae38b946">
+						<datasetRun subDataset="Table Dataset 1" uuid="cb2dfc73-0e4c-47b1-95cb-0ce00f5463f1">
 							<datasetParameter name="dateFormater">
 								<datasetParameterExpression><![CDATA[$P{dateFormater}]]></datasetParameterExpression>
 							</datasetParameter>
@@ -138,7 +157,7 @@
 						</datasetRun>
 					</dataset>
 					<categorySeries>
-						<seriesExpression><![CDATA["# of Occurrences"]]></seriesExpression>
+						<seriesExpression><![CDATA["# of occurences"]]></seriesExpression>
 						<categoryExpression><![CDATA[$P{dateFormater}.format($F{curDate})]]></categoryExpression>
 						<valueExpression><![CDATA[$F{aggVal}]]></valueExpression>
 						<itemHyperlink>
@@ -147,17 +166,16 @@
 						</itemHyperlink>
 					</categorySeries>
 				</categoryDataset>
-				<barPlot>
+				<linePlot>
 					<plot/>
-					<itemLabel/>
 					<categoryAxisFormat>
 						<axisFormat/>
 					</categoryAxisFormat>
 					<valueAxisFormat>
 						<axisFormat/>
 					</valueAxisFormat>
-				</barPlot>
-			</barChart>
+				</linePlot>
+			</lineChart>
 		</band>
 	</summary>
 </jasperReport>
