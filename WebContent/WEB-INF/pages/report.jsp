@@ -8,8 +8,10 @@
 </head>
 <body>
 	<h1>Report Page</h1>
+	<a href="/MongoDBWsAndReport/report/showpiechart">Show pie chart report</a>
+	<br>
 	<a href="/MongoDBWsAndReport/report/showbarchart">Show bar chart report</a>
 	<br>
-	<a href="/MongoDBWsAndReport/report/showchart">Show pie chart report</a>
+	<a href="/MongoDBWsAndReport/report/showlinechart">Show line chart report</a>
 </body>
 </html>

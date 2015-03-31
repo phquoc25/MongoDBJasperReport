@@ -28,11 +28,15 @@
 		</entry>
 	</util:map>
 
-	<bean id="multiReport" class="com.directv.view.SpReportsMultiFormatView"
+	<bean id="pieChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/PieChartReport.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
 
 	<bean id="barChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/BarChart.jasper" p:exporterParameters-ref="exportParameterMap"
+		p:reportDataKey="datasource" />
+
+	<bean id="lineChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
+		p:url="WEB-INF/LineChart.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
 </beans>

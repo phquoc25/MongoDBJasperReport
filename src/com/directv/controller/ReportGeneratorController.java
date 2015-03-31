@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,8 +74,8 @@ public class ReportGeneratorController {
      * 
      * @param type the format of the report, i.e pdf
      */
-    @RequestMapping(value = "/downloadpiechart", method = RequestMethod.GET)
-    public ModelAndView doSalesMultiReport(@RequestParam("type") String type, 
+    @RequestMapping(value = "/downloadchart/{chartType}", method = RequestMethod.GET)
+    public ModelAndView doSalesMultiReport(@RequestParam("type") String type, @PathVariable String chartType,
     		ModelAndView modelAndView, ModelMap model, HttpServletRequest request, HttpServletResponse response) 
 		 {
 		logger.debug("Received request to download report type " + type);
@@ -91,7 +92,17 @@ public class ReportGeneratorController {
 		
 		// multiReport is the View of our application
 		// This is declared inside the /WEB-INF/jasper-views.xml
-		modelAndView = new ModelAndView("multiReport", model);
+		switch(chartType){
+		case "pie":
+			modelAndView = new ModelAndView("pieChartMultiReport", model);
+			break;
+		case "bar":
+			modelAndView = new ModelAndView("barChartMultiReport", model);
+			break;
+		case "line":
+			modelAndView = new ModelAndView("lineChartMultiReport", model);
+			break;
+		}
 		
 		// Return the View and the Model combined
 		return modelAndView;
@@ -99,7 +110,7 @@ public class ReportGeneratorController {
     
  
     
-	@RequestMapping(value="/showchart", method=RequestMethod.GET)
+	@RequestMapping(value="/showpiechart", method=RequestMethod.GET)
 	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response){
 		
 		logger.debug("Received request to show report");
@@ -110,7 +121,7 @@ public class ReportGeneratorController {
 		ModelAndView modelAndView = null;
 		String reportBody = getReportBody(request, rootPath, template);
 		modelAndView = generateReportPage(reportBody);
-		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadpiechart?type=pdf");
+		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadchart/pie?type=pdf");
 		return modelAndView;
 	}
 	
@@ -125,7 +136,22 @@ public class ReportGeneratorController {
 		ModelAndView modelAndView = null;
 		String reportBody = getReportBody(request, rootPath, template);
 		modelAndView = generateReportPage(reportBody);
-		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadbarchart?type=pdf");
+		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadchart/bar?type=pdf");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/showlinechart", method=RequestMethod.GET)
+	public ModelAndView showLineChart(HttpServletRequest request, HttpServletResponse response){
+		
+		logger.debug("Received request to show report");
+		daoImpl.initCollection();
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String template =  rootPath + "WEB-INF\\LineChart.jasper";		
+		
+		ModelAndView modelAndView = null;
+		String reportBody = getReportBody(request, rootPath, template);
+		modelAndView = generateReportPage(reportBody);
+		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadchart/line?type=pdf");
 		return modelAndView;
 	}
 	
@@ -214,32 +240,6 @@ public class ReportGeneratorController {
 			}
 		}
 		return reportBody.toString();
-	}
-	
-	@RequestMapping(value = "/downloadbarchart", method = RequestMethod.GET)
-	public ModelAndView showBarChartMultiReport(
-			@RequestParam("type") String type, ModelAndView modelAndView,
-			ModelMap model, HttpServletRequest request,
-			HttpServletResponse response) {
-		logger.debug("Received request to download multi report");
-		// daoImpl.initCollection();
-		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-    	JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
-		model.put("datasource", new JREmptyDataSource());
-		model.put("format", type);
-		model.put("requestObject", request);
-		model.put("ChartTitle", "Voice Usage: 'Utterances per Day'");
-		model.put("SubDataSource", dataSource);
-		model.put("SubDataSource1", dataSource1);
-		model.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
-		// model.put("SubDataSource1", dataSource1);
-
-		// multiReport is the View of our application
-		// This is declared inside the /WEB-INF/jasper-views.xml
-		modelAndView = new ModelAndView("barChartMultiReport", model);
-
-		// Return the View and the Model combined
-		return modelAndView;
 	}
 	
 	@RequestMapping(value="/showResult", method=RequestMethod.GET)

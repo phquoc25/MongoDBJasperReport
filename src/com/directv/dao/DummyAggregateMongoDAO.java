@@ -1,5 +1,6 @@
 package com.directv.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.directv.dto.DummyAggByDateComparator;
 import com.directv.dto.DummyAggregateDTO;
 
 @Repository
@@ -36,5 +38,6 @@ public class DummyAggregateMongoDAO implements IDAO<DummyAggregateDTO>{
 	public void initCollection() {
 		log.info("dummyAggregateMongoDAO: Hit DB");
 		collection = mongoTemplate.findAll(DummyAggregateDTO.class, DATA_COLLECTION);
+		Collections.sort(collection, new DummyAggByDateComparator());
 	}
 }
