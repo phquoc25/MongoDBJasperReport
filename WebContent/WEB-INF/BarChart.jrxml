@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BarChart" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e2cf083-f5bb-485d-b9d3-ecdce8bb9733">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="114"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -61,7 +61,7 @@
 		<band height="64" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="8" width="555" height="48" uuid="a9cd6324-b974-46e9-bc8f-72067b5e7cd1"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle">
 					<font size="24" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{ChartTitle}]]></textFieldExpression>
@@ -73,9 +73,16 @@
 			<bar3DChart>
 				<chart>
 					<reportElement x="0" y="19" width="555" height="164" uuid="b24c8a7b-3e3e-4e40-a718-12b15ff1264c"/>
-					<chartTitle/>
-					<chartSubtitle/>
-					<chartLegend/>
+					<chartTitle position="Bottom" color="#3333FF">
+						<font size="14"/>
+					</chartTitle>
+					<chartSubtitle color="#00FF00">
+						<font size="14"/>
+						<subtitleExpression><![CDATA["Utterances / Day"]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Right">
+						<font size="12" isBold="true"/>
+					</chartLegend>
 				</chart>
 				<categoryDataset>
 					<dataset>
@@ -87,7 +94,7 @@
 						</datasetRun>
 					</dataset>
 					<categorySeries>
-						<seriesExpression><![CDATA[""]]></seriesExpression>
+						<seriesExpression><![CDATA["# of Occurrences"]]></seriesExpression>
 						<categoryExpression><![CDATA[$P{dateFormater}.format($F{curDate})]]></categoryExpression>
 						<valueExpression><![CDATA[$F{aggVal}]]></valueExpression>
 						<itemHyperlink>

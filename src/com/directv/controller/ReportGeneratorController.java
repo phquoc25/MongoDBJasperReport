@@ -149,7 +149,7 @@ public class ReportGeneratorController {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("SubDataSource", dataSource);
 			parameters.put("SubDataSource1", dataSource1);
-			parameters.put("ChartTitle", "Utterance Report");
+			parameters.put("ChartTitle", "Voice Usage: 'Utterances per Day'");
 			parameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
 			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
 			
@@ -228,7 +228,7 @@ public class ReportGeneratorController {
 		model.put("datasource", new JREmptyDataSource());
 		model.put("format", type);
 		model.put("requestObject", request);
-		model.put("ChartTitle", "Utt per day");
+		model.put("ChartTitle", "Voice Usage: 'Utterances per Day'");
 		model.put("SubDataSource", dataSource);
 		model.put("SubDataSource1", dataSource1);
 		model.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
