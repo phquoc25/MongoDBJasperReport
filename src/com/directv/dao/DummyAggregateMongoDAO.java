@@ -13,8 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.directv.dto.DummyAggregateDTO;
 
-@Repository
-@Qualifier("dummyAggregateMongoDAO")
+@Repository(value="dummyAggregateMongoDAO")
 public class DummyAggregateMongoDAO implements IDAO<DummyAggregateDTO>{
 	
 	private Logger log = Logger.getLogger("dummyAggregateMongoDAO");

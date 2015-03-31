@@ -35,4 +35,21 @@
 	<bean id="barChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/BarChart.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
+
+	<bean id="pieChartReportService"
+		class="com.directv.services.ChartReportService">
+		<property name="daoImpl" ref="dummyAggregateMongoDAO"></property>
+		<property name="reportTemplate"
+			value="WEB-INF\\PieChartReport.jasper">
+		</property>
+		<property name="reportPage" value="downloadpage"></property>
+		
+		<property name="parameters">
+			<util:map>
+				<entry key="pdfLink"
+					value="/MongoDBWsAndReport/report/downloadpiechart?type=pdf">
+				</entry>
+			</util:map>
+		</property>
+	</bean>
 </beans>

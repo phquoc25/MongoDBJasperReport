@@ -14,6 +14,10 @@ import com.directv.dao.IDAO;
 public abstract class AbstractReportService {
 	
 	IDAO daoImpl;
+	public IDAO getDaoImpl() {
+		return daoImpl;
+	}
+	
 	protected String reportTemplate;
 	protected String reportPage;
 	protected Map<String, Object> parameters;
@@ -28,5 +32,29 @@ public abstract class AbstractReportService {
 		modelAndView.addAllObjects(parameters);
 		return modelAndView;
 	}
+	
+	public void setDaoImpl(IDAO daoImpl) {
+		this.daoImpl = daoImpl;
+	}
+	public String getReportTemplate() {
+		return reportTemplate;
+	}
+	public void setReportTemplate(String reportTemplate) {
+		this.reportTemplate = reportTemplate;
+	}
+	public String getReportPage() {
+		return reportPage;
+	}
+	public void setReportPage(String reportPage) {
+		this.reportPage = reportPage;
+	}
+	public Map<String, Object> getParameters() {
+		return parameters;
+	}
+	public void setParameters(Map<String, Object> parameters) {
+		this.parameters = parameters;
+	}
+
+
 	
 }

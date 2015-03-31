@@ -29,6 +29,7 @@ public class ChartReportService extends AbstractReportService{
 	
 	@Override
 	public String getReportBody(HttpServletRequest request) {
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
 		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
 		JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
 		BufferedReader reader = null;
@@ -41,16 +42,16 @@ public class ChartReportService extends AbstractReportService{
 			parameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
 			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
 			
-			JasperPrint jasperPrint = JasperFillManager.fillReport(reportTemplate, parameters, new JREmptyDataSource());
+			JasperPrint jasperPrint = JasperFillManager.fillReport(rootPath + reportTemplate, parameters, new JREmptyDataSource());
 			
 			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 			HtmlExporter exporterHTML = new HtmlExporter();
 			SimpleExporterInput exporterInput = new SimpleExporterInput(jasperPrint);
 			exporterHTML.setExporterInput(exporterInput);
-			SimpleHtmlExporterOutput exporterOutput;
+			SimpleHtmlExporterOutput exporterOutput; 
 			
 			//exporterOutput = new SimpleHtmlExporterOutput(response.getOutputStream());
-			String outputFile = "WEB-INF\\pages\\MyReportOutput" + request.getSession().getId() + ".jsp";
+			String outputFile = rootPath + "WEB-INF\\pages\\MyReportOutput" + request.getSession().getId() + ".jsp";
 			exporterOutput = new SimpleHtmlExporterOutput(outputFile);
 			exporterOutput.setImageHandler(new WebHtmlResourceHandler("image?image={0}"));
 			exporterHTML.setExporterOutput(exporterOutput);
@@ -86,17 +87,14 @@ public class ChartReportService extends AbstractReportService{
 		} catch (JRException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if(reader != null){
 				try {
 					reader.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

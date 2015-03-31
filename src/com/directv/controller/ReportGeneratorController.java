@@ -104,13 +104,12 @@ public class ReportGeneratorController {
 		
 		logger.debug("Received request to show report");
 		reportServiceImpl.initCollection();
-		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		
+		/*String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		*/
 		
 		ModelAndView modelAndView = null;
-		String reportBody = getReportBody(request, rootPath, template);
-		modelAndView = generateReportPage(reportBody);
-		modelAndView.addObject("pdfLink", "/MongoDBWsAndReport/report/downloadpiechart?type=pdf");
+		String reportBody = reportServiceImpl.getReportBody(request);
+		modelAndView = reportServiceImpl.generateReportPage(reportBody);
 		return modelAndView;
 	}
 	
