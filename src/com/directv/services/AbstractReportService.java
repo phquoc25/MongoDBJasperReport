@@ -14,47 +14,47 @@ import com.directv.dao.IDAO;
 public abstract class AbstractReportService {
 	
 	IDAO daoImpl;
-	public IDAO getDaoImpl() {
-		return daoImpl;
-	}
+	String chartType;
+	Map<String, Object> reportParameters;
+	Map<String, Map<String, Object>> classParameters;
 	
-	protected String reportTemplate;
-	protected String reportPage;
-	protected Map<String, Object> parameters;
 	
 	public abstract String getReportBody(HttpServletRequest request);
 	public abstract void initCollection();
 	public abstract List getCollection();
 	
-	public ModelAndView generateReportPage(String reportBody){
-		ModelAndView modelAndView = new ModelAndView(reportPage);
-		parameters.put("reportBody", reportBody);
-		modelAndView.addAllObjects(parameters);
+	public ModelAndView generateReportPage(Map<String, Object> pageParameters){
+		Map<String, Object> parameters = classParameters.get(chartType);
+		ModelAndView modelAndView = new ModelAndView(parameters.get("downloadPage").toString());
+		pageParameters.put("pdfLink", parameters.get("pdfLink"));
+		modelAndView.addAllObjects(pageParameters);
 		return modelAndView;
+	}
+	
+	public IDAO getDaoImpl() {
+		return daoImpl;
 	}
 	
 	public void setDaoImpl(IDAO daoImpl) {
 		this.daoImpl = daoImpl;
 	}
-	public String getReportTemplate() {
-		return reportTemplate;
-	}
-	public void setReportTemplate(String reportTemplate) {
-		this.reportTemplate = reportTemplate;
-	}
-	public String getReportPage() {
-		return reportPage;
-	}
-	public void setReportPage(String reportPage) {
-		this.reportPage = reportPage;
-	}
-	public Map<String, Object> getParameters() {
-		return parameters;
-	}
-	public void setParameters(Map<String, Object> parameters) {
-		this.parameters = parameters;
-	}
-
-
 	
+	public Map<String, Object> getReportParameters() {
+		return reportParameters;
+	}
+	public void setReportParameters(Map<String, Object> reportParameters) {
+		this.reportParameters = reportParameters;
+	}
+	public String getChartType() {
+		return chartType;
+	}
+	public void setChartType(String chartType) {
+		this.chartType = chartType;
+	}
+	public Map<String, Map<String, Object>> getClassParameters() {
+		return classParameters;
+	}
+	public void setClassParameters(Map<String, Map<String, Object>> classParameters) {
+		this.classParameters = classParameters;
+	}
 }

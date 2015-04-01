@@ -28,6 +28,17 @@
 		</entry>
 	</util:map>
 
+	<util:map id="pieClassParam">
+		<entry key="reportTemplate"
+			value='WEB-INF\\PieChartReport.jasper'>
+		</entry>
+		<entry key="downloadPage" value="downloadpage">
+		</entry>
+		<entry key="pdfLink"
+			value="/MongoDBWsAndReport/report/downloadchart/pie?type=pdf">
+		</entry>
+	</util:map>
+
 	<bean id="pieChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/PieChartReport.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
@@ -39,16 +50,12 @@
 	<bean id="lineChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/LineChart.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
-		
+
 	<bean id="pieChartReportService" class="com.directv.services.ChartReportService">
-		<property name="daoImpl" ref="dummyAggregateMongoDAO"/>
-		<property name="reportTemplate" value="WEB-INF\\PieChartReport.jasper"/>
-		<property name="reportPage" value="downloadpage"></property>
-		<property name="parameters">
+		<property name="daoImpl" ref="dummyAggregateMongoDAO" />
+		<property name="classParameters">
 			<util:map>
-				<entry key="pdfLink"
-					value="/MongoDBWsAndReport/report/downloadchart/pie?type=pdf">
-				</entry>
+				<entry key="pie" value-ref="pieClassParam"></entry>
 			</util:map>
 		</property>
 	</bean>

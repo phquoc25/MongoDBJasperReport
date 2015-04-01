@@ -1,9 +1,5 @@
 package com.directv.controller;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,22 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
-import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.j2ee.servlets.ImageServlet;
-import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.directv.dao.IDAO;
 import com.directv.services.AbstractReportService;
 
 @Controller
@@ -111,16 +94,27 @@ public class ReportGeneratorController {
  
     
 	@RequestMapping(value="/showchart", method=RequestMethod.GET)
-	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response){
+	public ModelAndView reportHtml(HttpServletRequest request, HttpServletResponse response, 
+						@RequestParam String chartType, @RequestParam String reportType){
 		
 		logger.debug("Received request to show report");
 		reportServiceImpl.initCollection();
-		/*String rootPath = request.getSession().getServletContext().getRealPath("/");
-		String template =  rootPath + "WEB-INF\\PieChartReport.jasper";		*/
+		reportServiceImpl.setChartType(chartType);
 		
+		JRDataSource dataSource = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+		JRDataSource dataSource1 = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+		Map<String, Object> reportParameters = new HashMap<String, Object>();
+		reportParameters.put("SubDataSource", dataSource);
+		reportParameters.put("SubDataSource1", dataSource1);
+		reportParameters.put("ChartTitle", "Utterance Report");
+		reportParameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
+		
+		reportServiceImpl.setReportParameters(reportParameters);
 		ModelAndView modelAndView = null;
 		String reportBody = reportServiceImpl.getReportBody(request);
-		modelAndView = reportServiceImpl.generateReportPage(reportBody);
+		Map<String, Object> pageParameters = new HashMap<String, Object>();
+		pageParameters.put("reportBody", reportBody);
+		modelAndView = reportServiceImpl.generateReportPage(pageParameters);
 		return modelAndView;
 	}
 	

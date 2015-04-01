@@ -30,19 +30,12 @@ public class ChartReportService extends AbstractReportService{
 	@Override
 	public String getReportBody(HttpServletRequest request) {
 		String rootPath = request.getSession().getServletContext().getRealPath("/");
-		JRDataSource dataSource = new JRBeanCollectionDataSource(daoImpl.getCollection());
-		JRDataSource dataSource1 = new JRBeanCollectionDataSource(daoImpl.getCollection());
+		String reportTemplatePath = rootPath + classParameters.get(chartType).get("reportTemplate").toString();
 		BufferedReader reader = null;
 		StringBuffer reportBody = null;
 		try {
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("SubDataSource", dataSource);
-			parameters.put("SubDataSource1", dataSource1);
-			parameters.put("ChartTitle", "Utterance Report");
-			parameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
-			//JasperReport jasperReport = JasperCompileManager.compileReport(template);
 			
-			JasperPrint jasperPrint = JasperFillManager.fillReport(rootPath + reportTemplate, parameters, new JREmptyDataSource());
+			JasperPrint jasperPrint = JasperFillManager.fillReport(reportTemplatePath, reportParameters, new JREmptyDataSource());
 			
 			request.getSession().setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, jasperPrint);
 			HtmlExporter exporterHTML = new HtmlExporter();
