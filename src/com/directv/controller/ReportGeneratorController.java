@@ -1,5 +1,6 @@
 package com.directv.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,12 +119,49 @@ public class ReportGeneratorController {
 		reportParameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
 		
 		reportServiceImpl.setReportParameters(reportParameters);
+		
 		ModelAndView modelAndView = null;
 		String reportBody = reportServiceImpl.getReportBody(request);
 		Map<String, Object> pageParameters = new HashMap<String, Object>();
 		pageParameters.put("reportBody", reportBody);
 		modelAndView = reportServiceImpl.generateReportPage(pageParameters);
 		return modelAndView;
+	}
+	
+	@RequestMapping(value="/showPDFReport", method=RequestMethod.GET)
+	public ModelAndView showPdfReport(HttpServletRequest request, HttpServletResponse response){
+		String rootPath = request.getSession().getServletContext().getRealPath("/");
+		String template =  rootPath + "WEB-INF/PieChartReport.jrxml";		
+
+		try {
+			JRDataSource dataSource = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+			JRDataSource dataSource1 = new JRBeanCollectionDataSource(reportServiceImpl.getCollection());
+			Map<String, Object> reportParameters = new HashMap<String, Object>();
+			reportParameters.put("SubDataSource", dataSource);
+			reportParameters.put("SubDataSource1", dataSource1);
+			reportParameters.put("ChartTitle", "Utterance Report");
+			reportParameters.put("dateFormater", new SimpleDateFormat("yyyy-MM-dd"));
+			
+			JasperReport jasperReport = JasperCompileManager.compileReport(template);
+
+			JasperPrint jasperPrint = JasperFillManager.fillReport(
+					jasperReport, reportParameters, new JREmptyDataSource());
+
+			JRPdfExporter pdfExporter = new JRPdfExporter();
+			SimpleExporterInput exporterInput = new SimpleExporterInput(jasperPrint);
+			pdfExporter.setExporterInput(exporterInput);
+			
+			SimpleOutputStreamExporterOutput exporterOutput;
+			exporterOutput = new SimpleOutputStreamExporterOutput(response.getOutputStream());
+			pdfExporter.setExporterOutput(exporterOutput);
+			pdfExporter.exportReport();
+			
+		} catch (JRException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }
