@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:annotation-config />
+	<!-- <mvc:resources mapping="/**" location="/" /> -->
+	<context:component-scan base-package="com.directv.dao, com.directv.services"></context:component-scan>
+
+	<mongo:mongo id="mongo" host="localhost" port="27017" />
+	<mongo:db-factory id="mongoDBFactory" dbname="qph"
+		mongo-ref="mongo" />
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDBFactory" />
+	</bean>
+	
+	<bean id="outlookMailSupporter"
+		class="com.directv.report.email.supporter.OutlookMailSupporter">
+		<constructor-arg name="sender" value="quocph@fsoft.com.vn"></constructor-arg>
+		<constructor-arg name="password" value="Tuesday@1835"></constructor-arg>
+		<constructor-arg name="props" ref="outlookProps"></constructor-arg>
+		<constructor-arg name="receivers" value="VChilukuri@DIRECTV.com"></constructor-arg>
+		<property name="subject"
+			value="[Voice analytic]Utterance report">
+		</property>
+		<property name="ccReceivers"
+			value="quocph@fsoft.com.vn nguyenttk@fsoft.com.vn">
+		</property>
+	</bean>
+
+	<!-- <import resource="jasper-views.xml" /> -->
+	<util:properties id="outlookProps">
+		<prop key="mail.smtp.host">mail.fsoft.com.vn</prop>
+		<prop key="mail.smtp.auth">true</prop>
+		<prop key="mail.smtp.port">587</prop>
+	</util:properties>
+</beans>
