@@ -4,8 +4,14 @@ apply plugin: 'war'
 sourceCompatibility = 1.7
 
 ext{
-	springVersion = '3.2.3.RELEASE'
-	log4jVersion = '1.2.17'	
+	springVersion = '4.0.6.RELEASE'
+	log4jVersion = '1.2.17'
+	jacksonDatabindVersion = '2.2.3'
+	junitVersion = '4.11'
+	jasperReportVersion = '5.6.1'
+	springDataVersion = '1.6.2.RELEASE'
+	springSupportVersion = '2.0.6'
+	javamailVersion = '1.5.2'
 }
 
 repositories{
@@ -14,10 +20,28 @@ repositories{
 }
 
 dependencies{
-	compile group: 'org.springframework', name: 'spring-context', version: springVersion
-	compile group: 'org.springframework', name: 'spring-webmvc', version: springVersion
+	compile 'org.springframework:spring-context:4.0.6.RELEASE'
+	compile 'org.springframework:spring-webmvc:4.0.6.RELEASE'
+	compile 'net.sf.jasperreports:jasperreports:5.6.1'
+	compile 'org.springframework.data:spring-data-mongodb:1.6.2.RELEASE'
+	compile 'org.springframework:spring-support:2.0.6'
+	compile 'log4j:log4j:1.2.17'
+	compile 'com.sun.mail:javax.mail:1.5.2'
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'src'
+        }
+    }
 }
 
 war{
 	from 'WebContent'
+	archiveName 'MongoDBWsAndReport.war'
 }
