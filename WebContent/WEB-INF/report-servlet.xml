@@ -30,6 +30,6 @@
 	Take note of the ordering of this ViewResolver.
 	 -->
 	<bean class="org.springframework.web.servlet.view.XmlViewResolver"
-			p:location="/spring/jasper-views.xml"  p:order="0" />
+			p:location="classpath:spring/jasper-views.xml"  p:order="0" />
 	
 </beans>

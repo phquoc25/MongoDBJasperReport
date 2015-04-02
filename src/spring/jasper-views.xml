@@ -30,7 +30,7 @@
 
 	<util:map id="pieClassParam">
 		<entry key="reportTemplate"
-			value='WEB-INF\\PieChartReport.jasper'>
+			value='WEB-INF/PieChartReport.jasper'>
 		</entry>
 		<entry key="downloadPage" value="downloadpage">
 		</entry>

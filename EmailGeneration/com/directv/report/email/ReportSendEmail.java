@@ -17,13 +17,14 @@ import com.directv.dao.IDAO;
 import com.directv.report.email.supporter.AbstractMailSupporter;
 import com.directv.services.AbStractReportGenerator;
 import com.directv.services.PDFReportGenerator;
+import com.directv.util.ApplicationContextProvider;
 
 public class ReportSendEmail {
 	public static void main(String[] args) {
 
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext(
-				"spring/myApplicationContext.xml");
-
+				"spring/applicationContext.xml");
+		//ApplicationContext applicationContext = ApplicationContextProvider.getApplicationContext();
 		String reportTemplatePath = "D:/PieChartReport.jasper";
 		String outputFileName = "D:/UtterranceReport.pdf";
 
