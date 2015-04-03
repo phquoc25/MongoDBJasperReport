@@ -13,7 +13,7 @@
 
 	<context:annotation-config />
 	<!-- <mvc:resources mapping="/**" location="/" /> -->
-	<context:component-scan base-package="com.directv.dao, com.directv.services"></context:component-scan>
+	<context:component-scan base-package="com.qph.dao, com.qph.services"></context:component-scan>
 
 	<mongo:mongo id="mongo" host="localhost" port="27017" />
 	<mongo:db-factory id="mongoDBFactory" dbname="qph"

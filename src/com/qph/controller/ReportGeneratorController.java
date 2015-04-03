@@ -1,4 +1,4 @@
-package com.directv.controller;
+package com.qph.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.directv.services.AbstractReportService;
+import com.qph.services.AbstractReportService;
 
 @Controller
 @RequestMapping("/report")

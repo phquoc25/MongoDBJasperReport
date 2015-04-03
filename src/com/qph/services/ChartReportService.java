@@ -1,4 +1,4 @@
-package com.directv.services;
+package com.qph.services;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

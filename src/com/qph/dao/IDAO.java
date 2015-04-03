@@ -1,4 +1,4 @@
-package com.directv.dao;
+package com.qph.dao;
 
 import java.util.List;
 

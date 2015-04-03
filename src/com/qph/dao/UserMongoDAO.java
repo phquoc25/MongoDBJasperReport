@@ -1,4 +1,4 @@
-package com.directv.dao;
+package com.qph.dao;
 
 import java.util.List;
 
@@ -11,26 +11,31 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.directv.dto.DummyAggregateDTO;
-import com.directv.dto.ReportDTO;
+import com.mongodb.DBObject;
+import com.qph.dto.ReportDTO;
+import com.qph.dto.UserDTO;
 
 @Repository
-@Qualifier(value="reportMongoDAO")
-public class ReportMongoDAO implements IDAO<ReportDTO>{
-
-	private final String REPORT_COLLECTION = "user";
+@Qualifier(value="userMongoDAO")
+public class UserMongoDAO implements IDAO<UserDTO>{
+	
+	private final String USER_COLLECTION = "user";
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-	private List<ReportDTO> collection;
-
+	private List<UserDTO> collection;
+	
+	public UserMongoDAO() {
+	}
+	
 	@Override
-	public List<ReportDTO> getCollection() {
+	public List<UserDTO> getCollection() {
 		return collection;
 	}
-
+	
 	@PostConstruct
 	public void initCollection() {
-		collection = mongoTemplate.findAll(ReportDTO.class, REPORT_COLLECTION);
+		collection = mongoTemplate.findAll(UserDTO.class, USER_COLLECTION);
 	}
+
 }

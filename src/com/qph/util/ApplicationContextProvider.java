@@ -1,4 +1,4 @@
-package com.directv.util;
+package com.qph.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

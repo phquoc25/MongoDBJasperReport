@@ -1,4 +1,4 @@
-package com.directv.view;
+package com.qph.view;
 
 import java.util.Map;
 

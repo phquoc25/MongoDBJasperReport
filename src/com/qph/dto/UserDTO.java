@@ -1,4 +1,4 @@
-package com.directv.dto;
+package com.qph.dto;
 
 public class UserDTO {
 	private String userName;

@@ -1,4 +1,4 @@
-package com.directv.dao;
+package com.qph.dao;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.directv.dto.DummyAggByDateComparator;
-import com.directv.dto.DummyAggregateDTO;
+import com.qph.dto.DummyAggByDateComparator;
+import com.qph.dto.DummyAggregateDTO;
 
 @Repository(value="dummyAggregateMongoDAO")
 public class DummyAggregateMongoDAO implements IDAO<DummyAggregateDTO>{

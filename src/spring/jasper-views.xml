@@ -39,19 +39,19 @@
 		</entry>
 	</util:map>
 
-	<bean id="pieChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
+	<bean id="pieChartMultiReport" class="com.qph.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/PieChartReport.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
 
-	<bean id="barChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
+	<bean id="barChartMultiReport" class="com.qph.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/BarChart.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
 		
-	<bean id="lineChartMultiReport" class="com.directv.view.SpReportsMultiFormatView"
+	<bean id="lineChartMultiReport" class="com.qph.view.SpReportsMultiFormatView"
 		p:url="WEB-INF/LineChart.jasper" p:exporterParameters-ref="exportParameterMap"
 		p:reportDataKey="datasource" />
 
-	<bean id="pieChartReportService" class="com.directv.services.ChartReportService">
+	<bean id="pieChartReportService" class="com.qph.services.ChartReportService">
 		<property name="daoImpl" ref="dummyAggregateMongoDAO" />
 		<property name="classParameters">
 			<util:map>

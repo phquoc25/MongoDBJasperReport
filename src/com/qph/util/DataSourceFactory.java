@@ -1,7 +1,7 @@
-package com.directv.util;
+package com.qph.util;
 
-import com.directv.dao.IDAO;
-import com.directv.dao.UserMongoDAO;
+import com.qph.dao.IDAO;
+import com.qph.dao.UserMongoDAO;
 
 import net.sf.jasperreports.engine.JRDataSource;
 

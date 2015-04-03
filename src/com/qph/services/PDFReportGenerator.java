@@ -1,4 +1,4 @@
-package com.directv.services;
+package com.qph.services;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

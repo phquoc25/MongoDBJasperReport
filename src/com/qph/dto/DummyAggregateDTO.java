@@ -1,14 +1,13 @@
-package com.directv.dto;
+package com.qph.dto;
 
 import java.util.Date;
 
-public class ReportDTO {
-	
+public class DummyAggregateDTO {
 	private String _class;
 	private Date curDate;
 	private Long timeStamp;
 	private Long aggVal;
-
+	
 	public String get_class() {
 		return _class;
 	}
@@ -36,7 +35,7 @@ public class ReportDTO {
 	@Override
 	public String toString() {
 		StringBuffer builder = new StringBuffer();
-		builder.append("ReportDTO [_class=");
+		builder.append("DummyAggregateDTO [_class=");
 		builder.append(_class);
 		builder.append(", curDate=");
 		builder.append(curDate);
@@ -47,5 +46,7 @@ public class ReportDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	
+	
 }

@@ -13,11 +13,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.ui.ModelMap;
 
-import com.directv.dao.IDAO;
 import com.directv.report.email.supporter.AbstractMailSupporter;
-import com.directv.services.AbStractReportGenerator;
-import com.directv.services.PDFReportGenerator;
-import com.directv.util.ApplicationContextProvider;
+import com.qph.dao.IDAO;
+import com.qph.services.AbStractReportGenerator;
+import com.qph.services.PDFReportGenerator;
+import com.qph.util.ApplicationContextProvider;
 
 public class ReportSendEmail {
 	public static void main(String[] args) {

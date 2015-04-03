@@ -1,4 +1,4 @@
-package com.directv.services;
+package com.qph.services;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.directv.dao.IDAO;
+import com.qph.dao.IDAO;
 
 public abstract class AbstractReportService {
 	
