@@ -23,7 +23,7 @@
 	</bean>
 	
 	<bean id="outlookMailSupporter"
-		class="com.directv.report.email.supporter.OutlookMailSupporter">
+		class="com.qph.report.email.supporter.OutlookMailSupporter">
 		<constructor-arg name="sender" value="quocph@fsoft.com.vn"></constructor-arg>
 		<constructor-arg name="password" value="Tuesday@1835"></constructor-arg>
 		<constructor-arg name="props" ref="outlookProps"></constructor-arg>

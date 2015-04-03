@@ -1,4 +1,4 @@
-package com.directv.report.email;
+package com.qph.report.email;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.ui.ModelMap;
 
-import com.directv.report.email.supporter.AbstractMailSupporter;
 import com.qph.dao.IDAO;
+import com.qph.report.email.supporter.AbstractMailSupporter;
 import com.qph.services.AbStractReportGenerator;
 import com.qph.services.PDFReportGenerator;
 import com.qph.util.ApplicationContextProvider;

@@ -1,4 +1,4 @@
-package com.directv.report.email.supporter;
+package com.qph.report.email.supporter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;

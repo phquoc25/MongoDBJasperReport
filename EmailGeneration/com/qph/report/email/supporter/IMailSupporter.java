@@ -1,4 +1,4 @@
-package com.directv.report.email.supporter;
+package com.qph.report.email.supporter;
 
 import javax.mail.Session;
 
